@@ -3324,6 +3324,10 @@
       <HeaderFileOutput>$(SolutionDir)..\Build\$(Platform)\$(Configuration)\Output\$(ProjectName)\CompiledShaders\%(Filename).h</HeaderFileOutput>
       <ObjectFileOutput />
     </FxCompile>
+    <Lib>
+      <AdditionalLibraryDirectories>..\Packages\zlib-msvc-x64.1.2.11.8900\build\native\lib_release;..\Packages\directxtex_desktop_win10.2019.2.7.1\lib\x64\Release;..\Packages\directxmesh_desktop_win10.2019.2.7.1\lib\x64\Release;..\Packages\WinPixEventRuntime.1.0.210209001\bin\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>zlibstatic.lib;WinPixEventRuntime.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -3346,18 +3350,16 @@
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="packages\WinPixEventRuntime.1.0.210209001\build\WinPixEventRuntime.targets" Condition="Exists('packages\WinPixEventRuntime.1.0.210209001\build\WinPixEventRuntime.targets')" />
-    <Import Project="packages\zlib-msvc-x64.1.2.11.8900\build\native\zlib-msvc-x64.targets" Condition="Exists('packages\zlib-msvc-x64.1.2.11.8900\build\native\zlib-msvc-x64.targets')" />
-    <Import Project="packages\directxmesh_desktop_win10.2021.6.10.1\build\native\directxmesh_desktop_win10.targets" Condition="Exists('packages\directxmesh_desktop_win10.2021.6.10.1\build\native\directxmesh_desktop_win10.targets')" />
-    <Import Project="packages\directxtex_desktop_win10.2021.6.10.1\build\native\directxtex_desktop_win10.targets" Condition="Exists('packages\directxtex_desktop_win10.2021.6.10.1\build\native\directxtex_desktop_win10.targets')" />
+    <Import Project="..\Packages\WinPixEventRuntime.1.0.210209001\build\WinPixEventRuntime.targets" Condition="Exists('..\Packages\WinPixEventRuntime.1.0.210209001\build\WinPixEventRuntime.targets')" />
+    <Import Project="..\Packages\zlib-msvc-x64.1.2.11.8900\build\native\zlib-msvc-x64.targets" Condition="Exists('..\Packages\zlib-msvc-x64.1.2.11.8900\build\native\zlib-msvc-x64.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('packages\WinPixEventRuntime.1.0.210209001\build\WinPixEventRuntime.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\WinPixEventRuntime.1.0.210209001\build\WinPixEventRuntime.targets'))" />
-    <Error Condition="!Exists('packages\zlib-msvc-x64.1.2.11.8900\build\native\zlib-msvc-x64.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\zlib-msvc-x64.1.2.11.8900\build\native\zlib-msvc-x64.targets'))" />
-    <Error Condition="!Exists('packages\directxmesh_desktop_win10.2021.6.10.1\build\native\directxmesh_desktop_win10.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\directxmesh_desktop_win10.2021.6.10.1\build\native\directxmesh_desktop_win10.targets'))" />
-    <Error Condition="!Exists('packages\directxtex_desktop_win10.2021.6.10.1\build\native\directxtex_desktop_win10.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\directxtex_desktop_win10.2021.6.10.1\build\native\directxtex_desktop_win10.targets'))" />
+    <Error Condition="!Exists('..\Packages\WinPixEventRuntime.1.0.210209001\build\WinPixEventRuntime.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\Packages\WinPixEventRuntime.1.0.210209001\build\WinPixEventRuntime.targets'))" />
+    <Error Condition="!Exists('..\Packages\zlib-msvc-x64.1.2.11.8900\build\native\zlib-msvc-x64.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\Packages\zlib-msvc-x64.1.2.11.8900\build\native\zlib-msvc-x64.targets'))" />
+    <Error Condition="!Exists('..\Packages\directxmesh_desktop_win10.2021.6.10.1\build\native\directxmesh_desktop_win10.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\Packages\directxmesh_desktop_win10.2021.6.10.1\build\native\directxmesh_desktop_win10.targets'))" />
+    <Error Condition="!Exists('..\Packages\directxtex_desktop_win10.2021.6.10.1\build\native\directxtex_desktop_win10.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\Packages\directxtex_desktop_win10.2021.6.10.1\build\native\directxtex_desktop_win10.targets'))" />
   </Target>
 </Project>
