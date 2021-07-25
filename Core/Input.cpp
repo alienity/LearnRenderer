@@ -45,6 +45,7 @@ namespace GameCore
 
 namespace
 {
+    bool s_end;
     bool s_Buttons[2][GameInput::kNumDigitalInputs];
     float s_HoldDuration[GameInput::kNumDigitalInputs] = { 0.0f };
     float s_Analogs[GameInput::kNumAnalogInputs];
@@ -222,7 +223,7 @@ namespace
             ASSERT(false, "Mouse CreateDevice failed.");
         if (FAILED(s_Mouse->SetDataFormat(&c_dfDIMouse2)))
             ASSERT(false, "Mouse SetDataFormat failed.");
-        if (FAILED(s_Mouse->SetCooperativeLevel(GameCore::g_hWnd, DISCL_FOREGROUND | DISCL_EXCLUSIVE)))
+        if (FAILED(s_Mouse->SetCooperativeLevel(GameCore::g_hWnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE)))
             ASSERT(false, "Mouse SetCooperativeLevel failed.");
 
         KbmZeroInputs();
@@ -418,6 +419,16 @@ bool GameInput::IsPressed( DigitalInput di )
 bool GameInput::IsFirstPressed( DigitalInput di )
 {
     return s_Buttons[0][di] && !s_Buttons[1][di];
+}
+
+void GameInput::End()
+{
+    s_end = true;
+}
+
+bool GameInput::IsEnd()
+{
+    return s_end;
 }
 
 bool GameInput::IsReleased( DigitalInput di )

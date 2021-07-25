@@ -184,6 +184,9 @@ namespace GameInput
     bool IsReleased( DigitalInput di );
     bool IsFirstReleased( DigitalInput di );
 
+    void End();
+    bool IsEnd();
+
     float GetDurationPressed( DigitalInput di );
 
     float GetAnalogInput( AnalogInput ai );

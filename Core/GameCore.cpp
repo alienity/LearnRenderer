@@ -89,7 +89,7 @@ namespace GameCore
     // Default implementation to be overridden by the application
     bool IGameApp::IsDone( void )
     {
-        return GameInput::IsFirstPressed(GameInput::kKey_escape);
+        return GameInput::IsFirstPressed(GameInput::kKey_escape) || GameInput::IsEnd();
     }
 
     HWND g_hWnd = nullptr;
@@ -163,6 +163,7 @@ namespace GameCore
             break;
 
         case WM_DESTROY:
+            GameInput::End();
             PostQuitMessage(0);
             break;
 
