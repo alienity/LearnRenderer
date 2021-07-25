@@ -557,6 +557,7 @@
     <None Include="Math\Functions.inl">
       <Filter>Math</Filter>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Util\CommandLineArg.cpp">
