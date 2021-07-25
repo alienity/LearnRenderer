@@ -3359,7 +3359,5 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\Packages\WinPixEventRuntime.1.0.210209001\build\WinPixEventRuntime.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\Packages\WinPixEventRuntime.1.0.210209001\build\WinPixEventRuntime.targets'))" />
     <Error Condition="!Exists('..\Packages\zlib-msvc-x64.1.2.11.8900\build\native\zlib-msvc-x64.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\Packages\zlib-msvc-x64.1.2.11.8900\build\native\zlib-msvc-x64.targets'))" />
-    <Error Condition="!Exists('..\Packages\directxmesh_desktop_win10.2021.6.10.1\build\native\directxmesh_desktop_win10.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\Packages\directxmesh_desktop_win10.2021.6.10.1\build\native\directxmesh_desktop_win10.targets'))" />
-    <Error Condition="!Exists('..\Packages\directxtex_desktop_win10.2021.6.10.1\build\native\directxtex_desktop_win10.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\Packages\directxtex_desktop_win10.2021.6.10.1\build\native\directxtex_desktop_win10.targets'))" />
   </Target>
 </Project>
