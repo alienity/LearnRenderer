@@ -1,9 +1,6 @@
 // LearnViewer.cpp : Defines the entry point for the application.
 //
 
-#include "framework.h"
-#include "LearnViewer.h"
-
 #include "Display.h"
 #include "GameCore.h"
 #include "VectorMath.h"
