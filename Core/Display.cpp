@@ -74,17 +74,17 @@ namespace Graphics
     void PreparePresentHDR();
     void CompositeOverlays( GraphicsContext& Context );
 
-    enum eResolution { k720p, k900p, k1080p, k1440p, k1800p, k2160p };
+    enum eResolution { k720p, k768, k900p, k1080p, k1440p, k1800p, k2160p };
     enum eEQAAQuality { kEQAA1x1, kEQAA1x8, kEQAA1x16 };
 
     const uint32_t kNumPredefinedResolutions = 6;
 
-    const char* ResolutionLabels[] = { "1280x720", "1600x900", "1920x1080", "2560x1440", "3200x1800", "3840x2160" };
-    EnumVar NativeResolution("Graphics/Display/Native Resolution", k1080p, kNumPredefinedResolutions, ResolutionLabels);
+    const char* ResolutionLabels[] = { "1280x720", "1366x768", "1600x900", "1920x1080", "2560x1440", "3200x1800", "3840x2160"};
+    EnumVar NativeResolution("Graphics/Display/Native Resolution", k768, kNumPredefinedResolutions, ResolutionLabels);
 #ifdef _GAMING_DESKTOP
     // This can set the window size to common dimensions.  It's also possible for the window to take on other dimensions
     // through resizing or going full-screen.
-    EnumVar DisplayResolution("Graphics/Display/Display Resolution", k1080p, kNumPredefinedResolutions, ResolutionLabels);
+    EnumVar DisplayResolution("Graphics/Display/Display Resolution", k768, kNumPredefinedResolutions, ResolutionLabels);
 #endif
 
     bool g_bEnableHDROutput = false;
@@ -107,6 +107,10 @@ namespace Graphics
         case k720p:
             width = 1280;
             height = 720;
+            break;
+        case k768:
+            width = 1366;
+            height = 768;
             break;
         case k900p:
             width = 1600;
