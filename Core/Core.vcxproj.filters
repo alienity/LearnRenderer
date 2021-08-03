@@ -13,6 +13,9 @@
     <Filter Include="Fonts">
       <UniqueIdentifier>{ea4ee287-ef32-4753-ad44-94301d6be809}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FG">
+      <UniqueIdentifier>{38c80849-7459-47b6-ba70-3cd9f602e404}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shaders\AdaptExposureCS.hlsl">
@@ -727,5 +730,26 @@
     <ClInclude Include="UploadBuffer.h" />
     <ClInclude Include="Utility.h" />
     <ClInclude Include="VectorMath.h" />
+    <ClInclude Include="FG\fg\framegraph.hpp">
+      <Filter>FG</Filter>
+    </ClInclude>
+    <ClInclude Include="FG\fg\realize.hpp">
+      <Filter>FG</Filter>
+    </ClInclude>
+    <ClInclude Include="FG\fg\render_task.hpp">
+      <Filter>FG</Filter>
+    </ClInclude>
+    <ClInclude Include="FG\fg\render_task_base.hpp">
+      <Filter>FG</Filter>
+    </ClInclude>
+    <ClInclude Include="FG\fg\render_task_builder.hpp">
+      <Filter>FG</Filter>
+    </ClInclude>
+    <ClInclude Include="FG\fg\resource.hpp">
+      <Filter>FG</Filter>
+    </ClInclude>
+    <ClInclude Include="FG\fg\resource_base.hpp">
+      <Filter>FG</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

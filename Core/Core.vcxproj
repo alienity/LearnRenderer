@@ -3145,6 +3145,13 @@
     <ClInclude Include="EngineProfiling.h" />
     <ClInclude Include="EngineTuning.h" />
     <ClInclude Include="EsramAllocator.h" />
+    <ClInclude Include="FG\fg\framegraph.hpp" />
+    <ClInclude Include="FG\fg\realize.hpp" />
+    <ClInclude Include="FG\fg\render_task.hpp" />
+    <ClInclude Include="FG\fg\render_task_base.hpp" />
+    <ClInclude Include="FG\fg\render_task_builder.hpp" />
+    <ClInclude Include="FG\fg\resource.hpp" />
+    <ClInclude Include="FG\fg\resource_base.hpp" />
     <ClInclude Include="FileUtility.h" />
     <ClInclude Include="Fonts\consola24.h" />
     <ClInclude Include="FXAA.h" />
@@ -3304,7 +3311,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>.\packages\zlib-msvc-x64.1.2.11.8900\build\native\include;.\packages\WinPixEventRuntime.1.0.210209001\Include\WinPixEventRuntime;$(SolutionDir)..\Build\$(Platform)\$(Configuration)\Output\$(ProjectName);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\packages\zlib-msvc-x64.1.2.11.8900\build\native\include;.\packages\WinPixEventRuntime.1.0.210209001\Include\WinPixEventRuntime;$(SolutionDir)..\Build\$(Platform)\$(Configuration)\Output\$(ProjectName);.\FG;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
     </ClCompile>
     <Link>
