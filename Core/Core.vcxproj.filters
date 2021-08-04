@@ -730,25 +730,25 @@
     <ClInclude Include="UploadBuffer.h" />
     <ClInclude Include="Utility.h" />
     <ClInclude Include="VectorMath.h" />
-    <ClInclude Include="FG\fg\framegraph.hpp">
+    <ClInclude Include="FG\FrameGraph.hpp">
       <Filter>FG</Filter>
     </ClInclude>
-    <ClInclude Include="FG\fg\realize.hpp">
+    <ClInclude Include="FG\FrameGraphResourceBase.hpp">
       <Filter>FG</Filter>
     </ClInclude>
-    <ClInclude Include="FG\fg\render_task.hpp">
+    <ClInclude Include="FG\Realize.hpp">
       <Filter>FG</Filter>
     </ClInclude>
-    <ClInclude Include="FG\fg\render_task_base.hpp">
+    <ClInclude Include="FG\FrameGraphPass.hpp">
       <Filter>FG</Filter>
     </ClInclude>
-    <ClInclude Include="FG\fg\render_task_builder.hpp">
+    <ClInclude Include="FG\FrameGraphPassBase.hpp">
       <Filter>FG</Filter>
     </ClInclude>
-    <ClInclude Include="FG\fg\resource.hpp">
+    <ClInclude Include="FG\FrameGraphPassBuilder.hpp">
       <Filter>FG</Filter>
     </ClInclude>
-    <ClInclude Include="FG\fg\resource_base.hpp">
+    <ClInclude Include="FG\FrameGraphResource.hpp">
       <Filter>FG</Filter>
     </ClInclude>
   </ItemGroup>
