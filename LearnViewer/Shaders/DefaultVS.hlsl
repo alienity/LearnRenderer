@@ -16,7 +16,7 @@
 cbuffer VSConstants : register(b0)
 {
     float4x4 Proj;
-    float3x3 View;
+    float4x4 View;
 };
 
 struct VSInput
@@ -38,6 +38,8 @@ VSOutput main(VSInput vsInput)
     //Tex = float2(uint2(VertID, VertID << 1) & 2);
     //Pos = float4(lerp(float2(-1, 1), float2(1, -1), Tex), 0, 1);
     VSOutput vsOutput;
-    vsOutput.position = mul(Proj, nul(View, float4(vsInput.position, 1.0)));
+    vsOutput.position = mul(Proj, mul(View, float4(vsInput.position, 1.0)));
+    //vsOutput.position = float4(vsInput.position, 1.0);
     vsOutput.uv0 = vsInput.uv0;
+    return vsOutput;
 }

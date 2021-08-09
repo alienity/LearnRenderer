@@ -53,23 +53,12 @@ DescriptorHeap s_TextureHeap;
 DescriptorHandle m_CommonTextures;
 
 void LearnViewer::InitGeometry() {
-    // 准备顶点数据
-    struct TextureCoord {
-        float u, v;
-    public:
-        TextureCoord() = default;
-        TextureCoord(float _u, float _v) {
-            this->u = _u;
-            this->v = _v;
-        }
-    };
-
     struct VertexBuffer {
-        Vector3 pos;
-        TextureCoord uv0;
+        XMFLOAT3 pos;
+        XMFLOAT2 uv0;
     public:
         VertexBuffer() = default;
-        VertexBuffer(Vector3 _pos, TextureCoord _uv) {
+        VertexBuffer(XMFLOAT3 _pos, XMFLOAT2 _uv) {
             this->pos = _pos;
             this->uv0 = _uv;
         }
@@ -77,77 +66,83 @@ void LearnViewer::InitGeometry() {
 
     std::vector<VertexBuffer> vertexData;
 
-    vertexData.push_back(VertexBuffer(Vector3(-1, -1, -1), TextureCoord(0, 0)));
-    vertexData.push_back(VertexBuffer(Vector3(1, -1, -1), TextureCoord(1, 0)));
-    vertexData.push_back(VertexBuffer(Vector3(1, 1, -1), TextureCoord(1, 1)));
+    vertexData.push_back(VertexBuffer(XMFLOAT3(-1, -1, 1), XMFLOAT2(0, 0)));
+    vertexData.push_back(VertexBuffer(XMFLOAT3(1, -1, 1), XMFLOAT2(1, 0)));
+    vertexData.push_back(VertexBuffer(XMFLOAT3(1, 1, 1), XMFLOAT2(1, 1)));
 
-    vertexData.push_back(VertexBuffer(Vector3(-1, -1, -1), TextureCoord(0, 0)));
-    vertexData.push_back(VertexBuffer(Vector3(1, 1, -1), TextureCoord(1, 1)));
-    vertexData.push_back(VertexBuffer(Vector3(-1, 1, -1), TextureCoord(0, 1)));
+    vertexData.push_back(VertexBuffer(XMFLOAT3(-1, -1, 1), XMFLOAT2(0, 0)));
+    vertexData.push_back(VertexBuffer(XMFLOAT3(1, 1, 1), XMFLOAT2(1, 1)));
+    vertexData.push_back(VertexBuffer(XMFLOAT3(-1, 1, 1), XMFLOAT2(0, 1)));
 
-    vertexData.push_back(VertexBuffer(Vector3(1, -1, -1), TextureCoord(0, 0)));
-    vertexData.push_back(VertexBuffer(Vector3(1, -1, 1), TextureCoord(1, 1)));
-    vertexData.push_back(VertexBuffer(Vector3(1, 1, 1), TextureCoord(1, 1)));
+    vertexData.push_back(VertexBuffer(XMFLOAT3(1, -1, 1), XMFLOAT2(0, 0)));
+    vertexData.push_back(VertexBuffer(XMFLOAT3(1, -1, -1), XMFLOAT2(1, 0)));
+    vertexData.push_back(VertexBuffer(XMFLOAT3(1, 1, -1), XMFLOAT2(1, 1)));
 
-    vertexData.push_back(VertexBuffer(Vector3(1, -1, -1), TextureCoord(0, 0)));
-    vertexData.push_back(VertexBuffer(Vector3(1, 1, 1), TextureCoord(1, 1)));
-    vertexData.push_back(VertexBuffer(Vector3(1, 1, -1), TextureCoord(0, 1)));
+    vertexData.push_back(VertexBuffer(XMFLOAT3(1, -1, 1), XMFLOAT2(0, 0)));
+    vertexData.push_back(VertexBuffer(XMFLOAT3(1, 1, -1), XMFLOAT2(1, 1)));
+    vertexData.push_back(VertexBuffer(XMFLOAT3(1, 1, 1), XMFLOAT2(0, 1)));
 
-    vertexData.push_back(VertexBuffer(Vector3(1, -1, 1), TextureCoord(0, 0)));
-    vertexData.push_back(VertexBuffer(Vector3(-1, -1, 1), TextureCoord(1, 1)));
-    vertexData.push_back(VertexBuffer(Vector3(-1, -1, 1), TextureCoord(1, 1)));
+    vertexData.push_back(VertexBuffer(XMFLOAT3(1, -1, -1), XMFLOAT2(0, 0)));
+    vertexData.push_back(VertexBuffer(XMFLOAT3(-1, -1, -1), XMFLOAT2(1, 0)));
+    vertexData.push_back(VertexBuffer(XMFLOAT3(-1, 1, -1), XMFLOAT2(1, 1)));
 
-    vertexData.push_back(VertexBuffer(Vector3(1, -1, 1), TextureCoord(0, 0)));
-    vertexData.push_back(VertexBuffer(Vector3(-1, -1, 1), TextureCoord(1, 1)));
-    vertexData.push_back(VertexBuffer(Vector3(1, 1, 1), TextureCoord(0, 1)));
+    vertexData.push_back(VertexBuffer(XMFLOAT3(1, -1, -1), XMFLOAT2(0, 0)));
+    vertexData.push_back(VertexBuffer(XMFLOAT3(-1, 1, -1), XMFLOAT2(1, 1)));
+    vertexData.push_back(VertexBuffer(XMFLOAT3(1, 1, -1), XMFLOAT2(0, 1)));
 
-    vertexData.push_back(VertexBuffer(Vector3(-1, -1, 1), TextureCoord(0, 0)));
-    vertexData.push_back(VertexBuffer(Vector3(-1, -1, -1), TextureCoord(1, 1)));
-    vertexData.push_back(VertexBuffer(Vector3(-1, 1, -1), TextureCoord(1, 1)));
+    vertexData.push_back(VertexBuffer(XMFLOAT3(-1, -1, -1), XMFLOAT2(0, 0)));
+    vertexData.push_back(VertexBuffer(XMFLOAT3(-1, -1, 1), XMFLOAT2(1, 0)));
+    vertexData.push_back(VertexBuffer(XMFLOAT3(-1, 1, 1), XMFLOAT2(1, 1)));
 
-    vertexData.push_back(VertexBuffer(Vector3(-1, -1, 1), TextureCoord(0, 0)));
-    vertexData.push_back(VertexBuffer(Vector3(-1, 1, -1), TextureCoord(1, 1)));
-    vertexData.push_back(VertexBuffer(Vector3(-1, -1, 1), TextureCoord(0, 1)));
+    vertexData.push_back(VertexBuffer(XMFLOAT3(-1, -1, -1), XMFLOAT2(0, 0)));
+    vertexData.push_back(VertexBuffer(XMFLOAT3(-1, 1, 1), XMFLOAT2(1, 1)));
+    vertexData.push_back(VertexBuffer(XMFLOAT3(-1, 1, -1), XMFLOAT2(0, 1)));
 
-    vertexData.push_back(VertexBuffer(Vector3(-1, 1, -1), TextureCoord(0, 0)));
-    vertexData.push_back(VertexBuffer(Vector3(1, 1, -1), TextureCoord(1, 1)));
-    vertexData.push_back(VertexBuffer(Vector3(1, 1, 1), TextureCoord(1, 1)));
+    vertexData.push_back(VertexBuffer(XMFLOAT3(-1, 1, 1), XMFLOAT2(0, 0)));
+    vertexData.push_back(VertexBuffer(XMFLOAT3(1, 1, 1), XMFLOAT2(1, 0)));
+    vertexData.push_back(VertexBuffer(XMFLOAT3(1, 1, -1), XMFLOAT2(1, 1)));
 
-    vertexData.push_back(VertexBuffer(Vector3(-1, 1, 1), TextureCoord(0, 0)));
-    vertexData.push_back(VertexBuffer(Vector3(1, 1, 1), TextureCoord(1, 1)));
-    vertexData.push_back(VertexBuffer(Vector3(-1, -1, 1), TextureCoord(0, 1)));
+    vertexData.push_back(VertexBuffer(XMFLOAT3(-1, 1, 1), XMFLOAT2(0, 0)));
+    vertexData.push_back(VertexBuffer(XMFLOAT3(1, 1, -1), XMFLOAT2(1, 1)));
+    vertexData.push_back(VertexBuffer(XMFLOAT3(-1, 1, -1), XMFLOAT2(0, 1)));
 
-    vertexData.push_back(VertexBuffer(Vector3(-1, -1, 1), TextureCoord(0, 0)));
-    vertexData.push_back(VertexBuffer(Vector3(1, -1, 1), TextureCoord(1, 1)));
-    vertexData.push_back(VertexBuffer(Vector3(1, -1, -1), TextureCoord(1, 1)));
+    vertexData.push_back(VertexBuffer(XMFLOAT3(-1, -1, -1), XMFLOAT2(0, 0)));
+    vertexData.push_back(VertexBuffer(XMFLOAT3(1, -1, -1), XMFLOAT2(1, 0)));
+    vertexData.push_back(VertexBuffer(XMFLOAT3(1, -1, 1), XMFLOAT2(1, 1)));
 
-    vertexData.push_back(VertexBuffer(Vector3(-1, -1, 1), TextureCoord(0, 0)));
-    vertexData.push_back(VertexBuffer(Vector3(1, -1, -1), TextureCoord(1, 1)));
-    vertexData.push_back(VertexBuffer(Vector3(-1, -1, -1), TextureCoord(0, 1)));
+    vertexData.push_back(VertexBuffer(XMFLOAT3(-1, -1, -1), XMFLOAT2(0, 0)));
+    vertexData.push_back(VertexBuffer(XMFLOAT3(1, -1, 1), XMFLOAT2(1, 1)));
+    vertexData.push_back(VertexBuffer(XMFLOAT3(-1, -1, 1), XMFLOAT2(0, 1)));
 
     m_VertexBuffer.Create(L"VertexBuffer", vertexData.size(), sizeof(VertexBuffer), vertexData.data());
 
-
+    std::vector<int> indexBuffer;
+    for (int i = 0; i < vertexData.size(); ++i) {
+        indexBuffer.push_back(i);
+    }
+    m_IndexBuffer.Create(L"IndexBuffer", indexBuffer.size(), sizeof(int), indexBuffer.data());
 
 }
 
 void LearnViewer::Startup(void) {
-    m_Camera.SetEyeAtUp(Vector3(0, 0, 2), Vector3(kZero), Vector3(kYUnitVector));
+    InitGeometry();
+
+    m_Camera.SetEyeAtUp(Vector3(0, 0, 5), Vector3(kZero), Vector3(kYUnitVector));
 
     m_TestRootSig.Reset(1, 1);
-    m_TestRootSig[0].InitAsDescriptorRange(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 0, 1);
+    m_TestRootSig[0].InitAsConstantBuffer(0, D3D12_SHADER_VISIBILITY_VERTEX);
     m_TestRootSig.InitStaticSampler(0, SamplerLinearWrapDesc);
-    m_TestRootSig.Finalize(L"TestRootSig");
+    m_TestRootSig.Finalize(L"TestRootSig", D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
 
     std::vector<D3D12_INPUT_ELEMENT_DESC> vertexLayout;
     vertexLayout.push_back({ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT,    0, D3D12_APPEND_ALIGNED_ELEMENT });
-    vertexLayout.push_back({ "TEXCOORD", 0, DXGI_FORMAT_R16G16_FLOAT,       0, D3D12_APPEND_ALIGNED_ELEMENT });
+    vertexLayout.push_back({ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT,       0, D3D12_APPEND_ALIGNED_ELEMENT });
 
     m_TestPSO.SetRootSignature(m_TestRootSig);
     m_TestPSO.SetRasterizerState(RasterizerDefault);
     m_TestPSO.SetBlendState(BlendDisable);
-    m_TestPSO.SetDepthStencilState(DepthStateDisabled);
-    m_TestPSO.SetSampleMask(0xFFFFFFFF);
+    m_TestPSO.SetDepthStencilState(DepthStateReadWrite);
+    //m_TestPSO.SetSampleMask(0xFFFFFFFF);
     m_TestPSO.SetInputLayout((uint32_t)vertexLayout.size(), vertexLayout.data());
     m_TestPSO.SetPrimitiveTopologyType(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE);
     m_TestPSO.SetVertexShader(g_pDefaultVS, sizeof(g_pDefaultVS));
@@ -158,15 +153,20 @@ void LearnViewer::Startup(void) {
     s_TextureHeap.Create(L"Scene Texture Descriptors", D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 4096);
     m_CommonTextures = s_TextureHeap.Alloc(1);
 
-    // 把其他的纹理的handle拷贝到这里
+    // 设置相机相关参数
+    m_Camera.SetZRange(1.0f, 10000.0f);
+    m_CameraController.reset(new FlyingFPSCamera(m_Camera, Vector3(kYUnitVector)));
 }
 
 void LearnViewer::Cleanup(void) {
     s_TextureHeap.Destroy();
+
+    m_VertexBuffer.Destroy();
+    m_IndexBuffer.Destroy();
 }
 
 void LearnViewer::Update(float deltaT) {
-
+    m_CameraController->Update(deltaT);
 }
 
 void LearnViewer::RenderScene(void) {
@@ -177,21 +177,28 @@ void LearnViewer::RenderScene(void) {
         Matrix4 Proj;
         Matrix4 View;
     } defaultVSCB;
-    defaultVSCB.Proj = Invert(m_Camera.GetProjMatrix());
-    defaultVSCB.View = Invert(m_Camera.GetViewMatrix());
-
-    gfxContext.SetRootSignature(m_TestRootSig);
-    gfxContext.SetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-    gfxContext.SetPipelineState(m_TestPSO);
+    defaultVSCB.Proj = m_Camera.GetProjMatrix();
+    defaultVSCB.View = m_Camera.GetViewMatrix();
 
     gfxContext.TransitionResource(g_SceneColorBuffer, D3D12_RESOURCE_STATE_RENDER_TARGET);
-    gfxContext.SetRenderTarget(g_SceneColorBuffer.GetRTV());
+    gfxContext.TransitionResource(g_SceneDepthBuffer, D3D12_RESOURCE_STATE_DEPTH_WRITE);
+    gfxContext.ClearColor(g_SceneColorBuffer);
+    gfxContext.ClearDepth(g_SceneDepthBuffer);
+
+    gfxContext.SetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+    gfxContext.SetRootSignature(m_TestRootSig);
+    gfxContext.SetPipelineState(m_TestPSO);
+
+    gfxContext.SetRenderTarget(g_SceneColorBuffer.GetRTV(), g_SceneDepthBuffer.GetDSV());
     gfxContext.SetViewportAndScissor(0, 0, g_DisplayWidth, g_DisplayHeight);
 
     gfxContext.SetDynamicConstantBufferView(0, sizeof(DefaultVSCB), &defaultVSCB);
 
+    gfxContext.SetIndexBuffer(m_IndexBuffer.IndexBufferView());
+    gfxContext.SetVertexBuffer(0, m_VertexBuffer.VertexBufferView());
 
-    gfxContext.Draw(3);
+    gfxContext.DrawIndexed(m_IndexBuffer.GetElementCount());
 
     gfxContext.Finish();
 }
