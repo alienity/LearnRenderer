@@ -13,14 +13,31 @@
 
 #include "Common.hlsli"
 
-[RootSignature(Test_RootSig)]
-void main(
-    in uint VertID : SV_VertexID,
-    out float4 Pos : SV_Position,
-    out float2 Tex : TexCoord0
-)
+cbuffer VSConstants : register(b0)
 {
-    // Texture coordinates range [0, 2], but only [0, 1] appears on screen.
-    Tex = float2(uint2(VertID, VertID << 1) & 2);
-    Pos = float4(lerp(float2(-1, 1), float2(1, -1), Tex), 0, 1);
+    float4x4 Proj;
+    float3x3 View;
+};
+
+struct VSInput
+{
+    float3 position : POSITION;
+    float2 uv0 : TEXCOORD0;
+};
+
+struct VSOutput
+{
+    float4 position : SV_POSITION;
+    float2 uv0 : TEXCOORD0;
+};
+
+[RootSignature(Test_RootSig)]
+VSOutput main(VSInput vsInput)
+{
+    //// Texture coordinates range [0, 2], but only [0, 1] appears on screen.
+    //Tex = float2(uint2(VertID, VertID << 1) & 2);
+    //Pos = float4(lerp(float2(-1, 1), float2(1, -1), Tex), 0, 1);
+    VSOutput vsOutput;
+    vsOutput.position = mul(Proj, nul(View, float4(vsInput.position, 1.0)));
+    vsOutput.uv0 = vsInput.uv0;
 }

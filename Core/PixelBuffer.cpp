@@ -319,6 +319,7 @@ void PixelBuffer::AssociateWithResource( ID3D12Device* Device, const std::wstrin
     m_pResource.Attach(Resource);
     m_UsageState = CurrentState;
 
+    m_Dimension = ResourceDesc.Dimension;
     m_Width = (uint32_t)ResourceDesc.Width;		// We don't care about large virtual textures yet
     m_Height = ResourceDesc.Height;
     m_ArraySize = ResourceDesc.DepthOrArraySize;
@@ -334,6 +335,13 @@ void PixelBuffer::AssociateWithResource( ID3D12Device* Device, const std::wstrin
 D3D12_RESOURCE_DESC PixelBuffer::DescribeTex2D( uint32_t Width, uint32_t Height, uint32_t DepthOrArraySize,
     uint32_t NumMips, DXGI_FORMAT Format, UINT Flags)
 {
+    return DescribeTex(D3D12_RESOURCE_DIMENSION_TEXTURE2D, Width, Height, DepthOrArraySize, NumMips, Format, 1, Flags);
+}
+
+D3D12_RESOURCE_DESC PixelBuffer::DescribeTex(D3D12_RESOURCE_DIMENSION Dimension, UINT64 Width, UINT Height, UINT16 DepthOrArraySize,
+    UINT16 MipLevels, DXGI_FORMAT Format, UINT SampleCount, UINT Flags)
+{
+    m_Dimension = Dimension;
     m_Width = Width;
     m_Height = Height;
     m_ArraySize = DepthOrArraySize;
@@ -342,13 +350,13 @@ D3D12_RESOURCE_DESC PixelBuffer::DescribeTex2D( uint32_t Width, uint32_t Height,
     D3D12_RESOURCE_DESC Desc = {};
     Desc.Alignment = 0;
     Desc.DepthOrArraySize = (UINT16)DepthOrArraySize;
-    Desc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+    Desc.Dimension = Dimension;
     Desc.Flags = (D3D12_RESOURCE_FLAGS)Flags;
     Desc.Format = GetBaseFormat(Format);
     Desc.Height = (UINT)Height;
     Desc.Layout = D3D12_TEXTURE_LAYOUT_UNKNOWN;
-    Desc.MipLevels = (UINT16)NumMips;
-    Desc.SampleDesc.Count = 1;
+    Desc.MipLevels = (UINT16)MipLevels;
+    Desc.SampleDesc.Count = SampleCount;
     Desc.SampleDesc.Quality = 0;
     Desc.Width = (UINT64)Width;
     return Desc;

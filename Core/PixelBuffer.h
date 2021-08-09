@@ -20,8 +20,9 @@ class EsramAllocator;
 class PixelBuffer : public GpuResource
 {
 public:
-    PixelBuffer() : m_Width(0), m_Height(0), m_ArraySize(0), m_Format(DXGI_FORMAT_UNKNOWN), m_BankRotation(0) {}
+    PixelBuffer() : m_Dimension(D3D12_RESOURCE_DIMENSION_TEXTURE2D), m_Width(0), m_Height(0), m_ArraySize(0), m_Format(DXGI_FORMAT_UNKNOWN), m_BankRotation(0) {}
 
+    D3D12_RESOURCE_DIMENSION GetDimension(void) const { return m_Dimension; }
     uint32_t GetWidth(void) const { return m_Width; }
     uint32_t GetHeight(void) const { return m_Height; }
     uint32_t GetDepth(void) const { return m_ArraySize; }
@@ -41,6 +42,9 @@ protected:
 
     D3D12_RESOURCE_DESC DescribeTex2D(uint32_t Width, uint32_t Height, uint32_t DepthOrArraySize, uint32_t NumMips, DXGI_FORMAT Format, UINT Flags);
 
+    D3D12_RESOURCE_DESC DescribeTex(D3D12_RESOURCE_DIMENSION Dimension, UINT64 Width, UINT Height, UINT16 DepthOrArraySize, 
+        UINT16 MipLevels,  DXGI_FORMAT Format,  UINT SampleCount, UINT Flags);
+
     void AssociateWithResource( ID3D12Device* Device, const std::wstring& Name, ID3D12Resource* Resource, D3D12_RESOURCE_STATES CurrentState );
 
     void CreateTextureResource( ID3D12Device* Device, const std::wstring& Name, const D3D12_RESOURCE_DESC& ResourceDesc,
@@ -56,6 +60,7 @@ protected:
     static DXGI_FORMAT GetStencilFormat( DXGI_FORMAT Format );
     static size_t BytesPerPixel( DXGI_FORMAT Format );
 
+    D3D12_RESOURCE_DIMENSION m_Dimension;
     uint32_t m_Width;
     uint32_t m_Height;
     uint32_t m_ArraySize;

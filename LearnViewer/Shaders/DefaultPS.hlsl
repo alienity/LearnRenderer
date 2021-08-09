@@ -14,7 +14,6 @@
 #include "Common.hlsli"
 
 Texture2D ColorTex : register(t0);
-SamplerState BilinearSampler : register(s0);
 
 [RootSignature(Test_RootSig)]
 float4 main(float4 position : SV_Position) : SV_Target0

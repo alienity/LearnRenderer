@@ -115,10 +115,7 @@ void ColorBuffer::Create(const std::wstring& Name, uint32_t Width, uint32_t Heig
 {
     NumMips = (NumMips == 0 ? ComputeNumMips(Width, Height) : NumMips);
     D3D12_RESOURCE_FLAGS Flags = CombineResourceFlags();
-    D3D12_RESOURCE_DESC ResourceDesc = DescribeTex2D(Width, Height, 1, NumMips, Format, Flags);
-
-    ResourceDesc.SampleDesc.Count = m_FragmentCount;
-    ResourceDesc.SampleDesc.Quality = 0;
+    D3D12_RESOURCE_DESC ResourceDesc = DescribeTex(D3D12_RESOURCE_DIMENSION_TEXTURE2D, Width, Height, 1, NumMips, Format, m_FragmentCount, Flags);
 
     D3D12_CLEAR_VALUE ClearValue = {};
     ClearValue.Format = Format;
@@ -137,11 +134,22 @@ void ColorBuffer::Create(const std::wstring& Name, uint32_t Width, uint32_t Heig
     Create(Name, Width, Height, NumMips, Format);
 }
 
+void ColorBuffer::Create3D(const std::wstring& Name, uint32_t Width, uint32_t Height, uint32_t Depth,
+    uint32_t NumMips, DXGI_FORMAT Format)
+{
+    NumMips = (NumMips == 0 ? ComputeNumMips(Width, Height) : NumMips);
+    D3D12_RESOURCE_FLAGS Flags = D3D12_RESOURCE_FLAG_NONE | D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS;
+    D3D12_RESOURCE_DESC ResourceDesc = DescribeTex(D3D12_RESOURCE_DIMENSION_TEXTURE3D, Width, Height, Depth, NumMips, Format, m_FragmentCount, Flags);
+
+
+}
+
 void ColorBuffer::CreateArray( const std::wstring& Name, uint32_t Width, uint32_t Height, uint32_t ArrayCount,
     DXGI_FORMAT Format, D3D12_GPU_VIRTUAL_ADDRESS VidMem )
 {
     D3D12_RESOURCE_FLAGS Flags = CombineResourceFlags();
-    D3D12_RESOURCE_DESC ResourceDesc = DescribeTex2D(Width, Height, ArrayCount, 1, Format, Flags);
+    //D3D12_RESOURCE_DESC ResourceDesc = DescribeTex2D(Width, Height, ArrayCount, 1, Format, Flags);
+    D3D12_RESOURCE_DESC ResourceDesc = DescribeTex(D3D12_RESOURCE_DIMENSION_TEXTURE2D, Width, Height, ArrayCount, 1, Format, m_FragmentCount, Flags);
 
     D3D12_CLEAR_VALUE ClearValue = {};
     ClearValue.Format = Format;
