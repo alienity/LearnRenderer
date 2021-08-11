@@ -9,6 +9,7 @@
 #include "ShadowCamera.h"
 #include "CommandContext.h"
 #include "BufferManager.h"
+#include "TextureManager.h"
 
 #include "CompiledShaders/DefaultVS.h"
 #include "CompiledShaders/DefaultPS.h"
@@ -41,6 +42,7 @@ private:
 
     ByteAddressBuffer m_VertexBuffer;
     ByteAddressBuffer m_IndexBuffer;
+    TextureRef m_TestTexture;
 
     ShadowCamera m_SunShadowCamera;
 };
@@ -122,6 +124,10 @@ void LearnViewer::InitGeometry() {
     }
     m_IndexBuffer.Create(L"IndexBuffer", indexBuffer.size(), sizeof(int), indexBuffer.data());
 
+
+    TextureManager::Initialize(L"./Textures/");
+    TextureRef mLoadTex = TextureManager::LoadDDSFromFile(L"ziluolan.dds", Graphics::kMagenta2D, true);
+    m_TestTexture = mLoadTex;
 }
 
 void LearnViewer::Startup(void) {
@@ -129,9 +135,10 @@ void LearnViewer::Startup(void) {
 
     m_Camera.SetEyeAtUp(Vector3(0, 0, 5), Vector3(kZero), Vector3(kYUnitVector));
 
-    m_TestRootSig.Reset(1, 1);
-    m_TestRootSig[0].InitAsConstantBuffer(0, D3D12_SHADER_VISIBILITY_VERTEX);
+    m_TestRootSig.Reset(2, 1);
     m_TestRootSig.InitStaticSampler(0, SamplerLinearWrapDesc);
+    m_TestRootSig[0].InitAsConstantBuffer(0, D3D12_SHADER_VISIBILITY_VERTEX);
+    m_TestRootSig[1].InitAsDescriptorRange(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 0, 1);
     m_TestRootSig.Finalize(L"TestRootSig", D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
 
     std::vector<D3D12_INPUT_ELEMENT_DESC> vertexLayout;
@@ -142,7 +149,7 @@ void LearnViewer::Startup(void) {
     m_TestPSO.SetRasterizerState(RasterizerDefault);
     m_TestPSO.SetBlendState(BlendDisable);
     m_TestPSO.SetDepthStencilState(DepthStateReadWrite);
-    //m_TestPSO.SetSampleMask(0xFFFFFFFF);
+    m_TestPSO.SetSampleMask(0xFFFFFFFF);
     m_TestPSO.SetInputLayout((uint32_t)vertexLayout.size(), vertexLayout.data());
     m_TestPSO.SetPrimitiveTopologyType(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE);
     m_TestPSO.SetVertexShader(g_pDefaultVS, sizeof(g_pDefaultVS));
@@ -163,6 +170,8 @@ void LearnViewer::Cleanup(void) {
 
     m_VertexBuffer.Destroy();
     m_IndexBuffer.Destroy();
+
+    TextureManager::Shutdown();
 }
 
 void LearnViewer::Update(float deltaT) {
@@ -194,6 +203,7 @@ void LearnViewer::RenderScene(void) {
     gfxContext.SetViewportAndScissor(0, 0, g_DisplayWidth, g_DisplayHeight);
 
     gfxContext.SetDynamicConstantBufferView(0, sizeof(DefaultVSCB), &defaultVSCB);
+    gfxContext.SetDynamicDescriptor(1, 0, m_TestTexture.GetSRV());
 
     gfxContext.SetIndexBuffer(m_IndexBuffer.IndexBufferView());
     gfxContext.SetVertexBuffer(0, m_VertexBuffer.VertexBufferView());

@@ -24,6 +24,7 @@ struct VSOutput
 [RootSignature(Test_RootSig)]
 float4 main(VSOutput vsOutput) : SV_Target0
 {
-    return float4(vsOutput.uv0,0,1);
+    return ColorTex.Sample(defaultSampler, vsOutput.uv0);
+    //return float4(vsOutput.uv0,0,1);
     //return ColorTex[(int2)position.xy];
 }
