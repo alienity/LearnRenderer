@@ -66,7 +66,7 @@ D3D12_CPU_DESCRIPTOR_HANDLE DescriptorAllocator::Allocate( uint32_t Count )
 //
 // DescriptorHeap implementation
 //
-
+/*
 void DescriptorHeap::Create( const std::wstring& Name, D3D12_DESCRIPTOR_HEAP_TYPE Type, uint32_t MaxCount )
 {
     m_HeapDesc.Type = Type;
@@ -111,3 +111,4 @@ bool DescriptorHeap::ValidateHandle( const DescriptorHandle& DHandle ) const
 
     return true;
 }
+*/

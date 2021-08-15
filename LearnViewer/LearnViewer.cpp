@@ -51,8 +51,8 @@ CREATE_APPLICATION(LearnViewer)
 
 RootSignature m_TestRootSig;
 GraphicsPSO m_TestPSO(L"Renderer: Test PSO");
-DescriptorHeap s_TextureHeap;
-DescriptorHandle m_CommonTextures;
+//DescriptorHeap s_TextureHeap;
+//DescriptorHandle m_CommonTextures;
 
 void LearnViewer::InitGeometry() {
     struct VertexBuffer {
@@ -146,7 +146,7 @@ void LearnViewer::Startup(void) {
     vertexLayout.push_back({ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT,       0, D3D12_APPEND_ALIGNED_ELEMENT });
 
     m_TestPSO.SetRootSignature(m_TestRootSig);
-    m_TestPSO.SetRasterizerState(RasterizerDefault);
+    m_TestPSO.SetRasterizerState(RasterizerTwoSided);
     m_TestPSO.SetBlendState(BlendDisable);
     m_TestPSO.SetDepthStencilState(DepthStateReadWrite);
     m_TestPSO.SetSampleMask(0xFFFFFFFF);
@@ -157,8 +157,8 @@ void LearnViewer::Startup(void) {
     m_TestPSO.SetRenderTargetFormat(g_SceneColorBuffer.GetFormat(), g_SceneDepthBuffer.GetFormat());
     m_TestPSO.Finalize();
 
-    s_TextureHeap.Create(L"Scene Texture Descriptors", D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 4096);
-    m_CommonTextures = s_TextureHeap.Alloc(1);
+    //s_TextureHeap.Create(L"Scene Texture Descriptors", D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 4096);
+    //m_CommonTextures = s_TextureHeap.Alloc(1);
 
     // 设置相机相关参数
     m_Camera.SetZRange(1.0f, 10000.0f);
@@ -166,7 +166,7 @@ void LearnViewer::Startup(void) {
 }
 
 void LearnViewer::Cleanup(void) {
-    s_TextureHeap.Destroy();
+    //s_TextureHeap.Destroy();
 
     m_VertexBuffer.Destroy();
     m_IndexBuffer.Destroy();

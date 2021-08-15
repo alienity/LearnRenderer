@@ -69,8 +69,8 @@ public:
     void DestroyAllContexts();
 
 private:
-    std::vector<std::unique_ptr<CommandContext> > sm_ContextPool[4];
-    std::queue<CommandContext*> sm_AvailableContexts[4];
+    std::vector<std::unique_ptr<CommandContext> > sm_ContextPool[4]; // 这里的Manager的管理方式都差不多，都是这里sm_ContextPool存所有的CommandContext
+    std::queue<CommandContext*> sm_AvailableContexts[4]; // 所有没被用到的可用的CommandContext就存在这儿
     std::mutex sm_ContextAllocationMutex;
 };
 
@@ -166,9 +166,9 @@ protected:
 
     void BindDescriptorHeaps( void );
 
-    CommandListManager* m_OwningManager;
-    ID3D12GraphicsCommandList* m_CommandList;
-    ID3D12CommandAllocator* m_CurrentAllocator;
+    //CommandListManager* m_OwningManager;
+    ID3D12GraphicsCommandList* m_CommandList;   // 通过在GraphicsCore里面的CommandListManager全局对象g_CommandManager创建，用于执行真实的命令，在Finish的被销毁掉
+    ID3D12CommandAllocator* m_CurrentAllocator; // 用于生成并管理m_CommandList的Allocator，在Finish的时候会先回收m_CommandList申请的内存，并被回收到g_CommandManager管理的池子里面去
 
     ID3D12RootSignature* m_CurGraphicsRootSignature;
     ID3D12RootSignature* m_CurComputeRootSignature;

@@ -45,9 +45,6 @@ public:
     void Create(const std::wstring& Name, uint32_t Width, uint32_t Height, uint32_t NumMips,
         DXGI_FORMAT Format, EsramAllocator& Allocator);
 
-    void Create3D(const std::wstring& Name, uint32_t Width, uint32_t Height, uint32_t Depth, 
-        uint32_t NumMips, DXGI_FORMAT Format);
-
     // Create a color buffer.  If an address is supplied, memory will not be allocated.
     // The vmem address allows you to alias buffers (which can be especially useful for
     // reusing ESRAM across a frame.)

@@ -36,7 +36,7 @@ private:
     const D3D12_COMMAND_LIST_TYPE m_cCommandListType;
 
     ID3D12Device* m_Device;
-    std::vector<ID3D12CommandAllocator*> m_AllocatorPool;
-    std::queue<std::pair<uint64_t, ID3D12CommandAllocator*>> m_ReadyAllocators;
+    std::vector<ID3D12CommandAllocator*> m_AllocatorPool; // 所有创建的ID3D12CommandAllocator都存在这里，下面的m_ReadyAllocators则是存了可以当前可以被用的ID3D12CommandAllocator
+    std::queue<std::pair<uint64_t, ID3D12CommandAllocator*>> m_ReadyAllocators; // 存放可以用的ID3D12CommandAllocator
     std::mutex m_AllocatorMutex;
 };

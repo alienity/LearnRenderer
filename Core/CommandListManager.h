@@ -57,7 +57,7 @@ private:
 
     const D3D12_COMMAND_LIST_TYPE m_Type;
 
-    CommandAllocatorPool m_AllocatorPool;
+    CommandAllocatorPool m_AllocatorPool; // 每个Queue都有一个CommandAllocatorPool，这个CommandAllocatorPool真就是CommandAllocator的缓存池
     std::mutex m_FenceMutex;
     std::mutex m_EventMutex;
 

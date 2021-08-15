@@ -101,6 +101,7 @@ private:
     D3D12_GPU_DESCRIPTOR_HANDLE m_GpuHandle;
 };
 
+/*
 class DescriptorHeap
 {
 public:
@@ -134,3 +135,4 @@ private:
     DescriptorHandle m_FirstHandle;
     DescriptorHandle m_NextFreeHandle;
 };
+*/
