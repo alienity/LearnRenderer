@@ -751,5 +751,7 @@
     <ClInclude Include="FG\FrameGraphResource.hpp">
       <Filter>FG</Filter>
     </ClInclude>
+    <ClInclude Include="VariableSizeAllocationsManager.hpp" />
+    <ClInclude Include="VariableSizeGPUAllocationsManager.hpp" />
   </ItemGroup>
 </Project>

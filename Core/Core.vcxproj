@@ -3201,6 +3201,8 @@
     <ClInclude Include="UploadBuffer.h" />
     <ClInclude Include="Utility.h" />
     <ClInclude Include="Util\CommandLineArg.h" />
+    <ClInclude Include="VariableSizeAllocationsManager.hpp" />
+    <ClInclude Include="VariableSizeGPUAllocationsManager.hpp" />
     <ClInclude Include="VectorMath.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
