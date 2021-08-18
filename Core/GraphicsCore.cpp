@@ -55,7 +55,16 @@ namespace Graphics
 
     D3D_FEATURE_LEVEL g_D3DFeatureLevel = D3D_FEATURE_LEVEL_11_0;
 
+    /*
     DescriptorAllocator g_DescriptorAllocator[D3D12_DESCRIPTOR_HEAP_TYPE_NUM_TYPES] =
+    {
+        D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV,
+        D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER,
+        D3D12_DESCRIPTOR_HEAP_TYPE_RTV,
+        D3D12_DESCRIPTOR_HEAP_TYPE_DSV
+    };
+    */
+    LearnRenderer::CPUDescriptorHeap g_DescriptorAllocator[D3D12_DESCRIPTOR_HEAP_TYPE_NUM_TYPES] =
     {
         D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV,
         D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER,

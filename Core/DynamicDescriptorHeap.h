@@ -23,6 +23,60 @@ namespace Graphics
     extern ID3D12Device* g_Device;
 }
 
+// This handle refers to a descriptor or a descriptor table (contiguous descriptors) that is shader visible.
+class DescriptorHandle
+{
+public:
+    DescriptorHandle()
+    {
+        m_CpuHandle.ptr = D3D12_GPU_VIRTUAL_ADDRESS_UNKNOWN;
+        m_GpuHandle.ptr = D3D12_GPU_VIRTUAL_ADDRESS_UNKNOWN;
+    }
+
+    /*
+    // Should we allow constructing handles that might not be shader visible?
+    DescriptorHandle( D3D12_CPU_DESCRIPTOR_HANDLE CpuHandle )
+        : m_CpuHandle(CpuHandle)
+    {
+        m_GpuHandle.ptr = D3D12_GPU_VIRTUAL_ADDRESS_UNKNOWN;
+    }
+    */
+
+    DescriptorHandle(D3D12_CPU_DESCRIPTOR_HANDLE CpuHandle, D3D12_GPU_DESCRIPTOR_HANDLE GpuHandle)
+        : m_CpuHandle(CpuHandle), m_GpuHandle(GpuHandle)
+    {
+    }
+
+    DescriptorHandle operator+ (INT OffsetScaledByDescriptorSize) const
+    {
+        DescriptorHandle ret = *this;
+        ret += OffsetScaledByDescriptorSize;
+        return ret;
+    }
+
+    void operator += (INT OffsetScaledByDescriptorSize)
+    {
+        if (m_CpuHandle.ptr != D3D12_GPU_VIRTUAL_ADDRESS_UNKNOWN)
+            m_CpuHandle.ptr += OffsetScaledByDescriptorSize;
+        if (m_GpuHandle.ptr != D3D12_GPU_VIRTUAL_ADDRESS_UNKNOWN)
+            m_GpuHandle.ptr += OffsetScaledByDescriptorSize;
+    }
+
+    const D3D12_CPU_DESCRIPTOR_HANDLE* operator&() const { return &m_CpuHandle; }
+    operator D3D12_CPU_DESCRIPTOR_HANDLE() const { return m_CpuHandle; }
+    operator D3D12_GPU_DESCRIPTOR_HANDLE() const { return m_GpuHandle; }
+
+    size_t GetCpuPtr() const { return m_CpuHandle.ptr; }
+    uint64_t GetGpuPtr() const { return m_GpuHandle.ptr; }
+    bool IsNull() const { return m_CpuHandle.ptr == D3D12_GPU_VIRTUAL_ADDRESS_UNKNOWN; }
+    bool IsShaderVisible() const { return m_GpuHandle.ptr != D3D12_GPU_VIRTUAL_ADDRESS_UNKNOWN; }
+
+private:
+    D3D12_CPU_DESCRIPTOR_HANDLE m_CpuHandle;
+    D3D12_GPU_DESCRIPTOR_HANDLE m_GpuHandle;
+};
+
+
 // This class is a linear allocation system for dynamically generated descriptor tables.  It internally caches
 // CPU descriptor handles so that when not enough space is available in the current heap, necessary descriptors
 // can be re-copied to the new heap.
