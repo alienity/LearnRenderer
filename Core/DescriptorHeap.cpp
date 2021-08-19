@@ -20,7 +20,7 @@ namespace LearnRenderer
 {
     // Creates a new descriptor heap and reference the entire heap
     DescriptorHeapAllocationManager::DescriptorHeapAllocationManager(
-        ID3D12Device& DeviceD3D12,
+        ID3D12Device* DeviceD3D12,
         IDescriptorAllocator& ParentAllocator,
         size_t                            ThisManagerId,
         const D3D12_DESCRIPTOR_HEAP_DESC& HeapDesc) :
@@ -28,12 +28,12 @@ namespace LearnRenderer
         m_DeviceD3D12{ DeviceD3D12 },
         m_ThisManagerId{ ThisManagerId },
         m_HeapDesc{ HeapDesc },
-        m_DescriptorSize{ (&DeviceD3D12)->GetDescriptorHandleIncrementSize(m_HeapDesc.Type) },
+        m_DescriptorSize{ DeviceD3D12->GetDescriptorHandleIncrementSize(m_HeapDesc.Type) },
         m_NumDescriptorsInAllocation{ HeapDesc.NumDescriptors },
         m_FreeBlockManager{ HeapDesc.NumDescriptors }
     {
         Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> pd3d12DescriptorHeap;
-        ASSERT_SUCCEEDED((&DeviceD3D12)->CreateDescriptorHeap(&HeapDesc, MY_IID_PPV_ARGS(&pd3d12DescriptorHeap)));
+        ASSERT_SUCCEEDED(DeviceD3D12->CreateDescriptorHeap(&HeapDesc, MY_IID_PPV_ARGS(&pd3d12DescriptorHeap)));
         m_pd3d12DescriptorHeap = pd3d12DescriptorHeap;
 
         m_FirstCPUHandle = pd3d12DescriptorHeap->GetCPUDescriptorHandleForHeapStart();
@@ -45,7 +45,7 @@ namespace LearnRenderer
     }
 
     DescriptorHeapAllocationManager::DescriptorHeapAllocationManager(
-        ID3D12Device& DeviceD3D12,
+        ID3D12Device* DeviceD3D12,
         IDescriptorAllocator& ParentAllocator,
         size_t                 ThisManagerId,
         ID3D12DescriptorHeap* pd3d12DescriptorHeap,
@@ -55,7 +55,7 @@ namespace LearnRenderer
         m_DeviceD3D12{ DeviceD3D12 },
         m_ThisManagerId{ ThisManagerId },
         m_HeapDesc{ pd3d12DescriptorHeap->GetDesc() },
-        m_DescriptorSize{ (&DeviceD3D12)->GetDescriptorHandleIncrementSize(m_HeapDesc.Type) },
+        m_DescriptorSize{ DeviceD3D12->GetDescriptorHandleIncrementSize(m_HeapDesc.Type) },
         m_NumDescriptorsInAllocation{ NumDescriptors },
         m_FreeBlockManager{ NumDescriptors },
         m_pd3d12DescriptorHeap{ pd3d12DescriptorHeap }
@@ -126,7 +126,7 @@ namespace LearnRenderer
     // CPUDescriptorHeap implementation
     //
     CPUDescriptorHeap::CPUDescriptorHeap(
-        ID3D12Device& DeviceD3D12,
+        ID3D12Device* DeviceD3D12,
         UINT32                      NumDescriptorsInHeap,
         D3D12_DESCRIPTOR_HEAP_TYPE  Type,
         D3D12_DESCRIPTOR_HEAP_FLAGS Flags) :
@@ -139,7 +139,7 @@ namespace LearnRenderer
             Flags,
             1   // NodeMask
         },
-        m_DescriptorSize{ (&m_DeviceD3D12)->GetDescriptorHandleIncrementSize(Type) }
+        m_DescriptorSize{ DeviceD3D12->GetDescriptorHandleIncrementSize(Type) }
     {
         // Create one pool
         m_HeapPool.emplace_back(DeviceD3D12, *this, 0, m_HeapDesc);

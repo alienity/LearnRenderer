@@ -20,7 +20,6 @@
 #include "CommandContext.h"
 #include "RootSignature.h"
 #include "ImageScaling.h"
-#include "TemporalEffects.h"
 
 #pragma comment(lib, "dxgi.lib") 
 
@@ -526,8 +525,6 @@ void Display::Present(void)
     s_FrameStartTick = CurrentTick;
 
     ++s_FrameIndex;
-
-    TemporalEffects::Update((uint32_t)s_FrameIndex);
 
     SetNativeResolution();
     SetDisplayResolution();

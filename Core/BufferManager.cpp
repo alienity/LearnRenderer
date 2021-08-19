@@ -16,7 +16,6 @@
 #include "Display.h"
 #include "CommandContext.h"
 #include "EsramAllocator.h"
-#include "TemporalEffects.h"
 
 namespace Graphics
 {
@@ -174,8 +173,7 @@ void Graphics::InitializeRenderingBuffers( uint32_t bufferWidth, uint32_t buffer
 
                 g_TemporalColor[0].Create( L"Temporal Color 0", bufferWidth, bufferHeight, 1, DXGI_FORMAT_R16G16B16A16_FLOAT);
                 g_TemporalColor[1].Create( L"Temporal Color 1", bufferWidth, bufferHeight, 1, DXGI_FORMAT_R16G16B16A16_FLOAT);
-                TemporalEffects::ClearHistory(InitContext);
-
+                
                 g_TemporalMinBound.Create( L"Temporal Min Color", bufferWidth, bufferHeight, 1, DXGI_FORMAT_R11G11B10_FLOAT);
                 g_TemporalMaxBound.Create( L"Temporal Max Color", bufferWidth, bufferHeight, 1, DXGI_FORMAT_R11G11B10_FLOAT);
 

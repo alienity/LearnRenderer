@@ -251,7 +251,7 @@ namespace LearnRenderer
     public:
         // Creates a new D3D12 descriptor heap
         DescriptorHeapAllocationManager(
-            ID3D12Device& DeviceD3D12,
+            ID3D12Device* DeviceD3D12,
             IDescriptorAllocator& ParentAllocator,
             size_t                            ThisManagerId,
             const D3D12_DESCRIPTOR_HEAP_DESC& HeapDesc);
@@ -259,7 +259,7 @@ namespace LearnRenderer
         // Uses subrange of descriptors in the existing D3D12 descriptor heap
         // that starts at offset FirstDescriptor and uses NumDescriptors descriptors
         DescriptorHeapAllocationManager(
-            ID3D12Device& DeviceD3D12,
+            ID3D12Device* DeviceD3D12,
             IDescriptorAllocator& ParentAllocator,
             size_t                 ThisManagerId,
             ID3D12DescriptorHeap* pd3d12DescriptorHeap,
@@ -313,7 +313,7 @@ namespace LearnRenderer
 
     private:
         IDescriptorAllocator& m_ParentAllocator;
-        ID3D12Device&         m_DeviceD3D12;
+        ID3D12Device*         m_DeviceD3D12;
 
         // External ID assigned to this descriptor allocations manager
         size_t m_ThisManagerId = static_cast<size_t>(-1);
@@ -368,7 +368,7 @@ namespace LearnRenderer
     public:
         // Initializes the heap
         CPUDescriptorHeap(
-            ID3D12Device&               DeviceD3D12,
+            ID3D12Device*               DeviceD3D12,
             UINT32                      NumDescriptorsInHeap,
             D3D12_DESCRIPTOR_HEAP_TYPE  Type,
             D3D12_DESCRIPTOR_HEAP_FLAGS Flags);
@@ -389,7 +389,7 @@ namespace LearnRenderer
     private:
         void FreeAllocation(DescriptorHeapAllocation&& Allocation);
 
-        ID3D12Device& m_DeviceD3D12;
+        ID3D12Device* m_DeviceD3D12;
 
         // Pool of descriptor heap managers
         std::mutex                                   m_HeapPoolMutex;

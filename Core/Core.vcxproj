@@ -3068,14 +3068,12 @@
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="DDSTextureLoader.cpp" />
     <ClCompile Include="DepthBuffer.cpp" />
-    <ClCompile Include="DepthOfField.cpp" />
     <ClCompile Include="DescriptorHeap.cpp" />
     <ClCompile Include="Display.cpp" />
     <ClCompile Include="DynamicDescriptorHeap.cpp" />
     <ClCompile Include="EngineProfiling.cpp" />
     <ClCompile Include="EngineTuning.cpp" />
     <ClCompile Include="FileUtility.cpp" />
-    <ClCompile Include="FXAA.cpp" />
     <ClCompile Include="GameCore.cpp" />
     <ClCompile Include="GpuBuffer.cpp" />
     <ClCompile Include="GpuTimeManager.cpp" />
@@ -3094,24 +3092,17 @@
     <ClCompile Include="Math\Random.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="MotionBlur.cpp" />
-    <ClCompile Include="ParticleEffect.cpp" />
-    <ClCompile Include="ParticleEffectManager.cpp" />
-    <ClCompile Include="ParticleEmissionProperties.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="PipelineState.cpp" />
     <ClCompile Include="PixelBuffer.cpp" />
-    <ClCompile Include="PostEffects.cpp" />
     <ClCompile Include="ReadbackBuffer.cpp" />
     <ClCompile Include="RootSignature.cpp" />
     <ClCompile Include="SamplerManager.cpp" />
     <ClCompile Include="ShadowBuffer.cpp" />
     <ClCompile Include="ShadowCamera.cpp" />
-    <ClCompile Include="SSAO.cpp" />
     <ClCompile Include="SystemTime.cpp" />
-    <ClCompile Include="TemporalEffects.cpp" />
     <ClCompile Include="TextRenderer.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TextureManager.cpp" />
@@ -3138,7 +3129,6 @@
     <ClInclude Include="dds.h" />
     <ClInclude Include="DDSTextureLoader.h" />
     <ClInclude Include="DepthBuffer.h" />
-    <ClInclude Include="DepthOfField.h" />
     <ClInclude Include="DescriptorHeap.h" />
     <ClInclude Include="Display.h" />
     <ClInclude Include="DynamicDescriptorHeap.h" />
@@ -3154,7 +3144,6 @@
     <ClInclude Include="FG\FrameGraphResource.hpp" />
     <ClInclude Include="FileUtility.h" />
     <ClInclude Include="Fonts\consola24.h" />
-    <ClInclude Include="FXAA.h" />
     <ClInclude Include="GameCore.h" />
     <ClInclude Include="GameInput.h" />
     <ClInclude Include="GpuBuffer.h" />
@@ -3178,23 +3167,15 @@
     <ClInclude Include="Math\Scalar.h" />
     <ClInclude Include="Math\Transform.h" />
     <ClInclude Include="Math\Vector.h" />
-    <ClInclude Include="MotionBlur.h" />
-    <ClInclude Include="ParticleEffect.h" />
-    <ClInclude Include="ParticleEffectManager.h" />
-    <ClInclude Include="ParticleEffectProperties.h" />
-    <ClInclude Include="ParticleShaderStructs.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PipelineState.h" />
     <ClInclude Include="PixelBuffer.h" />
-    <ClInclude Include="PostEffects.h" />
     <ClInclude Include="ReadbackBuffer.h" />
     <ClInclude Include="RootSignature.h" />
     <ClInclude Include="SamplerManager.h" />
     <ClInclude Include="ShadowBuffer.h" />
     <ClInclude Include="ShadowCamera.h" />
-    <ClInclude Include="SSAO.h" />
     <ClInclude Include="SystemTime.h" />
-    <ClInclude Include="TemporalEffects.h" />
     <ClInclude Include="TextRenderer.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureManager.h" />

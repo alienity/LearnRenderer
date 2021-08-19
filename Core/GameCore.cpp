@@ -18,7 +18,6 @@
 #include "GameInput.h"
 #include "BufferManager.h"
 #include "CommandContext.h"
-#include "PostEffects.h"
 #include "Display.h"
 #include "Util/CommandLineArg.h"
 #include <shellapi.h>
