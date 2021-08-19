@@ -51,22 +51,14 @@ namespace Graphics
 
 	D3D_FEATURE_LEVEL g_D3DFeatureLevel = D3D_FEATURE_LEVEL_11_0;
 
-	/*
-	DescriptorAllocator g_DescriptorAllocator[D3D12_DESCRIPTOR_HEAP_TYPE_NUM_TYPES] =
-	{
-		D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV,
-		D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER,
-		D3D12_DESCRIPTOR_HEAP_TYPE_RTV,
-		D3D12_DESCRIPTOR_HEAP_TYPE_DSV
-	};
-	*/
-	LearnRenderer::CPUDescriptorHeap g_DescriptorAllocator[D3D12_DESCRIPTOR_HEAP_TYPE_NUM_TYPES] =
-	{
-		{g_Device, 256, D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, D3D12_DESCRIPTOR_HEAP_FLAG_NONE},
-		{g_Device, 256, D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER, D3D12_DESCRIPTOR_HEAP_FLAG_NONE},
-		{g_Device, 256, D3D12_DESCRIPTOR_HEAP_TYPE_RTV, D3D12_DESCRIPTOR_HEAP_FLAG_NONE},
-		{g_Device, 256, D3D12_DESCRIPTOR_HEAP_TYPE_DSV, D3D12_DESCRIPTOR_HEAP_FLAG_NONE},
-	};
+	LearnRenderer::CPUDescriptorHeap* g_DescriptorAllocator[D3D12_DESCRIPTOR_HEAP_TYPE_NUM_TYPES];
+	//=
+	//{
+	//	{g_Device, 256, D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, D3D12_DESCRIPTOR_HEAP_FLAG_NONE},
+	//	{g_Device, 256, D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER, D3D12_DESCRIPTOR_HEAP_FLAG_NONE},
+	//	{g_Device, 256, D3D12_DESCRIPTOR_HEAP_TYPE_RTV, D3D12_DESCRIPTOR_HEAP_FLAG_NONE},
+	//	{g_Device, 256, D3D12_DESCRIPTOR_HEAP_TYPE_DSV, D3D12_DESCRIPTOR_HEAP_FLAG_NONE},
+	//};
 
 	static const uint32_t vendorID_Nvidia = 4318;
 	static const uint32_t vendorID_AMD = 4098;
@@ -376,6 +368,11 @@ void Graphics::Initialize(void)
 
 	g_CommandManager.Create(g_Device);
 
+	g_DescriptorAllocator[D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV] = new LearnRenderer::CPUDescriptorHeap{ g_Device, 256, D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, D3D12_DESCRIPTOR_HEAP_FLAG_NONE };
+	g_DescriptorAllocator[D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER] = new LearnRenderer::CPUDescriptorHeap{ g_Device, 256, D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER, D3D12_DESCRIPTOR_HEAP_FLAG_NONE };
+	g_DescriptorAllocator[D3D12_DESCRIPTOR_HEAP_TYPE_RTV] = new LearnRenderer::CPUDescriptorHeap{ g_Device, 256, D3D12_DESCRIPTOR_HEAP_TYPE_RTV, D3D12_DESCRIPTOR_HEAP_FLAG_NONE };
+	g_DescriptorAllocator[D3D12_DESCRIPTOR_HEAP_TYPE_DSV] = new LearnRenderer::CPUDescriptorHeap{ g_Device, 256, D3D12_DESCRIPTOR_HEAP_TYPE_DSV, D3D12_DESCRIPTOR_HEAP_FLAG_NONE };
+
 	// Common state was moved to GraphicsCommon.*
 	InitializeCommonState();
 
@@ -389,6 +386,11 @@ void Graphics::Initialize(void)
 void Graphics::Shutdown(void)
 {
 	g_CommandManager.IdleGPU();
+
+	delete g_DescriptorAllocator[D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV];
+	delete g_DescriptorAllocator[D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER];
+	delete g_DescriptorAllocator[D3D12_DESCRIPTOR_HEAP_TYPE_RTV];
+	delete g_DescriptorAllocator[D3D12_DESCRIPTOR_HEAP_TYPE_DSV];
 
 	CommandContext::DestroyAllContexts();
 	g_CommandManager.Shutdown();

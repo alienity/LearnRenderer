@@ -398,7 +398,7 @@ namespace LearnRenderer
         std::unordered_set<size_t>                   m_AvailableHeaps;
 
         D3D12_DESCRIPTOR_HEAP_DESC m_HeapDesc;
-        const UINT                 m_DescriptorSize = 0;
+        UINT                 m_DescriptorSize = 0;
 
         // Maximum heap size during the application lifetime - for statistic purposes
         UINT32 m_MaxSize = 0;
