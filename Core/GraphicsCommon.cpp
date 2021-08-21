@@ -20,6 +20,7 @@
 #include "PipelineState.h"
 #include "RootSignature.h"
 #include "BufferManager.h"
+#include "DescriptorHeap.h"
 
 #include "CompiledShaders/GenerateMipsLinearCS.h"
 #include "CompiledShaders/GenerateMipsLinearOddCS.h"
@@ -52,6 +53,15 @@ namespace Graphics
     D3D12_CPU_DESCRIPTOR_HANDLE SamplerPointClamp;
     D3D12_CPU_DESCRIPTOR_HANDLE SamplerPointBorder;
     D3D12_CPU_DESCRIPTOR_HANDLE SamplerLinearBorder;
+
+    LearnRenderer::DescriptorHeapAllocation SamplerLinearWrapAllocation;
+    LearnRenderer::DescriptorHeapAllocation SamplerAnisoWrapAllocation;
+    LearnRenderer::DescriptorHeapAllocation SamplerShadowAllocation;
+    LearnRenderer::DescriptorHeapAllocation SamplerLinearClampAllocation;
+    LearnRenderer::DescriptorHeapAllocation SamplerVolumeWrapAllocation;
+    LearnRenderer::DescriptorHeapAllocation SamplerPointClampAllocation;
+    LearnRenderer::DescriptorHeapAllocation SamplerPointBorderAllocation;
+    LearnRenderer::DescriptorHeapAllocation SamplerLinearBorderAllocation;
 
     Texture DefaultTextures[kNumDefaultTextures];
     D3D12_CPU_DESCRIPTOR_HANDLE GetDefaultTexture( eDefaultTexture texID )
@@ -115,36 +125,44 @@ namespace BitonicSort
 void Graphics::InitializeCommonState(void)
 {
     SamplerLinearWrapDesc.Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;
-    SamplerLinearWrap = SamplerLinearWrapDesc.CreateDescriptor();
+    SamplerLinearWrapAllocation = SamplerLinearWrapDesc.CreateDescriptor();
+    SamplerLinearWrap = SamplerLinearWrapAllocation.GetCpuHandle();
 
     SamplerAnisoWrapDesc.MaxAnisotropy = 4;
-    SamplerAnisoWrap = SamplerAnisoWrapDesc.CreateDescriptor();
+    SamplerAnisoWrapAllocation = SamplerAnisoWrapDesc.CreateDescriptor();
+    SamplerAnisoWrap = SamplerAnisoWrapAllocation.GetCpuHandle();
 
     SamplerShadowDesc.Filter = D3D12_FILTER_COMPARISON_MIN_MAG_LINEAR_MIP_POINT;
     SamplerShadowDesc.ComparisonFunc = D3D12_COMPARISON_FUNC_GREATER_EQUAL;
     SamplerShadowDesc.SetTextureAddressMode(D3D12_TEXTURE_ADDRESS_MODE_CLAMP);
-    SamplerShadow = SamplerShadowDesc.CreateDescriptor();
+    SamplerShadowAllocation = SamplerShadowDesc.CreateDescriptor();
+    SamplerShadow = SamplerShadowAllocation.GetCpuHandle();
 
     SamplerLinearClampDesc.Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;
     SamplerLinearClampDesc.SetTextureAddressMode(D3D12_TEXTURE_ADDRESS_MODE_CLAMP);
-    SamplerLinearClamp = SamplerLinearClampDesc.CreateDescriptor();
+    SamplerLinearClampAllocation = SamplerLinearClampDesc.CreateDescriptor();
+    SamplerLinearClamp = SamplerLinearClampAllocation.GetCpuHandle();
 
     SamplerVolumeWrapDesc.Filter = D3D12_FILTER_MIN_MAG_MIP_POINT;
-    SamplerVolumeWrap = SamplerVolumeWrapDesc.CreateDescriptor();
+    SamplerVolumeWrapAllocation = SamplerVolumeWrapDesc.CreateDescriptor();
+    SamplerVolumeWrap = SamplerVolumeWrapAllocation.GetCpuHandle();
 
     SamplerPointClampDesc.Filter = D3D12_FILTER_MIN_MAG_MIP_POINT;
     SamplerPointClampDesc.SetTextureAddressMode(D3D12_TEXTURE_ADDRESS_MODE_CLAMP);
-    SamplerPointClamp = SamplerPointClampDesc.CreateDescriptor();
+    SamplerPointClampAllocation = SamplerPointClampDesc.CreateDescriptor();
+    SamplerPointClamp = SamplerPointClampAllocation.GetCpuHandle();
 
     SamplerLinearBorderDesc.Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;
     SamplerLinearBorderDesc.SetTextureAddressMode(D3D12_TEXTURE_ADDRESS_MODE_BORDER);
     SamplerLinearBorderDesc.SetBorderColor(Color(0.0f, 0.0f, 0.0f, 0.0f));
-    SamplerLinearBorder = SamplerLinearBorderDesc.CreateDescriptor();
+    SamplerLinearBorderAllocation = SamplerLinearBorderDesc.CreateDescriptor();
+    SamplerLinearBorder = SamplerLinearBorderAllocation.GetCpuHandle();
 
     SamplerPointBorderDesc.Filter = D3D12_FILTER_MIN_MAG_MIP_POINT;
     SamplerPointBorderDesc.SetTextureAddressMode(D3D12_TEXTURE_ADDRESS_MODE_BORDER);
     SamplerPointBorderDesc.SetBorderColor(Color(0.0f, 0.0f, 0.0f, 0.0f));
-    SamplerPointBorder = SamplerPointBorderDesc.CreateDescriptor();
+    SamplerPointBorderAllocation = SamplerPointBorderDesc.CreateDescriptor();
+    SamplerPointBorder = SamplerPointBorderAllocation.GetCpuHandle();
 
     uint32_t MagentaPixel = 0xFFFF00FF;
     DefaultTextures[kMagenta2D].Create2D(4, 1, 1, DXGI_FORMAT_R8G8B8A8_UNORM, &MagentaPixel);

@@ -75,7 +75,10 @@ void Texture::Create2D( size_t RowPitchBytes, size_t Width, size_t Height, DXGI_
     CommandContext::InitializeTexture(*this, 1, &texResource);
 
     if (m_hCpuDescriptorHandle.ptr == D3D12_GPU_VIRTUAL_ADDRESS_UNKNOWN)
-        m_hCpuDescriptorHandle = AllocateDescriptor(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+    {
+        m_hCpuDescriptorHandleAllocation = AllocateDescriptor(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+        m_hCpuDescriptorHandle = m_hCpuDescriptorHandleAllocation.GetCpuHandle();
+    }
     g_Device->CreateShaderResourceView(m_pResource.Get(), nullptr, m_hCpuDescriptorHandle);
 }
 
@@ -121,7 +124,10 @@ void Texture::CreateCube( size_t RowPitchBytes, size_t Width, size_t Height, DXG
     CommandContext::InitializeTexture(*this, 1, &texResource);
 
     if (m_hCpuDescriptorHandle.ptr == D3D12_GPU_VIRTUAL_ADDRESS_UNKNOWN)
-        m_hCpuDescriptorHandle = AllocateDescriptor(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+    {
+        m_hCpuDescriptorHandleAllocation = AllocateDescriptor(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+        m_hCpuDescriptorHandle = m_hCpuDescriptorHandleAllocation.GetCpuHandle();
+    }
 
     D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc;
     srvDesc.Format = Format;
@@ -189,7 +195,10 @@ void Texture::CreateTGAFromMemory( const void* _filePtr, size_t, bool sRGB )
 bool Texture::CreateDDSFromMemory( const void* filePtr, size_t fileSize, bool sRGB )
 {
     if (m_hCpuDescriptorHandle.ptr == D3D12_GPU_VIRTUAL_ADDRESS_UNKNOWN)
-        m_hCpuDescriptorHandle = AllocateDescriptor(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+    {
+        m_hCpuDescriptorHandleAllocation = AllocateDescriptor(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+        m_hCpuDescriptorHandle = m_hCpuDescriptorHandleAllocation.GetCpuHandle();
+    }
 
     HRESULT hr = CreateDDSTextureFromMemory( Graphics::g_Device,
         (const uint8_t*)filePtr, fileSize, 0, sRGB, &m_pResource, m_hCpuDescriptorHandle );

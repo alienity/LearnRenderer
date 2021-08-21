@@ -133,7 +133,8 @@ void ManagedTexture::CreateFromMemory(ByteArray ba, eDefaultTexture fallback, bo
     else
     {
         // We probably have a texture to load, so let's allocate a new descriptor
-        m_hCpuDescriptorHandle = AllocateDescriptor(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+        m_hCpuDescriptorHandleAllocation = AllocateDescriptor(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+        m_hCpuDescriptorHandle = m_hCpuDescriptorHandleAllocation.GetCpuHandle();
 
         if ( SUCCEEDED( CreateDDSTextureFromMemory( g_Device, (const uint8_t*)ba->data(), ba->size(),
             0, forceSRGB, m_pResource.GetAddressOf(), m_hCpuDescriptorHandle) ) )

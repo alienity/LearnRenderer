@@ -15,6 +15,7 @@
 
 #include "pch.h"
 #include "GpuResource.h"
+#include "DescriptorHeap.h"
 
 class Texture : public GpuResource
 {
@@ -52,4 +53,5 @@ protected:
     uint32_t m_Depth;
 
     D3D12_CPU_DESCRIPTOR_HANDLE m_hCpuDescriptorHandle;
+    LearnRenderer::DescriptorHeapAllocation m_hCpuDescriptorHandleAllocation;
 };

@@ -15,6 +15,7 @@
 
 #include "pch.h"
 #include "GpuResource.h"
+#include "DescriptorHeap.h"
 
 class CommandContext;
 class EsramAllocator;
@@ -45,7 +46,7 @@ public:
 
     D3D12_GPU_VIRTUAL_ADDRESS RootConstantBufferView(void) const { return m_GpuVirtualAddress; }
 
-    D3D12_CPU_DESCRIPTOR_HANDLE CreateConstantBufferView( uint32_t Offset, uint32_t Size ) const;
+    //D3D12_CPU_DESCRIPTOR_HANDLE CreateConstantBufferView( uint32_t Offset, uint32_t Size ) const;
 
     D3D12_VERTEX_BUFFER_VIEW VertexBufferView(size_t Offset, uint32_t Size, uint32_t Stride) const;
     D3D12_VERTEX_BUFFER_VIEW VertexBufferView(size_t BaseVertexIndex = 0) const
@@ -79,6 +80,9 @@ protected:
 
     D3D12_CPU_DESCRIPTOR_HANDLE m_UAV;
     D3D12_CPU_DESCRIPTOR_HANDLE m_SRV;
+
+    LearnRenderer::DescriptorHeapAllocation m_UAVAllocation;
+    LearnRenderer::DescriptorHeapAllocation m_SRVAllocation;
 
     size_t m_BufferSize;
     uint32_t m_ElementCount;

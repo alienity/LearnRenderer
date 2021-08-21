@@ -72,8 +72,11 @@ void ColorBuffer::CreateDerivedViews(ID3D12Device* Device, DXGI_FORMAT Format, u
 
     if (m_SRVHandle.ptr == D3D12_GPU_VIRTUAL_ADDRESS_UNKNOWN)
     {
-        m_RTVHandle = Graphics::AllocateDescriptor(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
-        m_SRVHandle = Graphics::AllocateDescriptor(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+        m_RTVHandleAllocation = Graphics::AllocateDescriptor(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+        m_SRVHandleAllocation = Graphics::AllocateDescriptor(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+
+        m_RTVHandle = m_RTVHandleAllocation.GetCpuHandle();
+        m_SRVHandle = m_SRVHandleAllocation.GetCpuHandle();
     }
 
     ID3D12Resource* Resource = m_pResource.Get();
@@ -88,10 +91,12 @@ void ColorBuffer::CreateDerivedViews(ID3D12Device* Device, DXGI_FORMAT Format, u
         return;
 
     // Create the UAVs for each mip level (RWTexture2D)
+    if(m_UAVHandleAllocation.IsNull())
+        m_UAVHandleAllocation = Graphics::AllocateDescriptor(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, NumMips);
     for (uint32_t i = 0; i < NumMips; ++i)
     {
         if (m_UAVHandle[i].ptr == D3D12_GPU_VIRTUAL_ADDRESS_UNKNOWN)
-            m_UAVHandle[i] = Graphics::AllocateDescriptor(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+            m_UAVHandle[i] = m_UAVHandleAllocation.GetCpuHandle(i);
 
         Device->CreateUnorderedAccessView(Resource, nullptr, &UAVDesc, m_UAVHandle[i]);
 
@@ -106,7 +111,8 @@ void ColorBuffer::CreateFromSwapChain( const std::wstring& Name, ID3D12Resource*
     //m_UAVHandle[0] = Graphics::AllocateDescriptor(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
     //Graphics::g_Device->CreateUnorderedAccessView(m_pResource.Get(), nullptr, nullptr, m_UAVHandle[0]);
 
-    m_RTVHandle = Graphics::AllocateDescriptor(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+    m_RTVHandleAllocation = Graphics::AllocateDescriptor(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+    m_RTVHandle = m_RTVHandleAllocation.GetCpuHandle();
     Graphics::g_Device->CreateRenderTargetView(m_pResource.Get(), nullptr, m_RTVHandle);
 }
 

@@ -14,6 +14,7 @@
 #pragma once
 
 #include "PixelBuffer.h"
+#include "DescriptorHeap.h"
 
 class EsramAllocator;
 
@@ -67,4 +68,8 @@ protected:
     D3D12_CPU_DESCRIPTOR_HANDLE m_hDSV[4];
     D3D12_CPU_DESCRIPTOR_HANDLE m_hDepthSRV;
     D3D12_CPU_DESCRIPTOR_HANDLE m_hStencilSRV;
+
+    LearnRenderer::DescriptorHeapAllocation m_hDSVAllocation[4];
+    LearnRenderer::DescriptorHeapAllocation m_hDepthSRVAllocation;
+    LearnRenderer::DescriptorHeapAllocation m_hStencilSRVAllocation;
 };

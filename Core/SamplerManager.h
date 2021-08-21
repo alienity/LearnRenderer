@@ -15,6 +15,7 @@
 
 #include "pch.h"
 #include "Color.h"
+#include "DescriptorHeap.h"
 
 class SamplerDesc : public D3D12_SAMPLER_DESC
 {
@@ -55,7 +56,7 @@ public:
     }
 
     // Allocate new descriptor as needed; return handle to existing descriptor when possible
-    D3D12_CPU_DESCRIPTOR_HANDLE CreateDescriptor( void );
+    LearnRenderer::DescriptorHeapAllocation CreateDescriptor( void );
 
     // Create descriptor in place (no deduplication).  Handle must be preallocated
     void CreateDescriptor( D3D12_CPU_DESCRIPTOR_HANDLE Handle );

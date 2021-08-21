@@ -63,8 +63,11 @@ void DepthBuffer::CreateDerivedViews( ID3D12Device* Device, DXGI_FORMAT Format )
 
     if (m_hDSV[0].ptr == D3D12_GPU_VIRTUAL_ADDRESS_UNKNOWN)
     {
-        m_hDSV[0] = Graphics::AllocateDescriptor(D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
-        m_hDSV[1] = Graphics::AllocateDescriptor(D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
+        m_hDSVAllocation[0] = Graphics::AllocateDescriptor(D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
+        m_hDSVAllocation[1] = Graphics::AllocateDescriptor(D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
+
+        m_hDSV[0] = m_hDSVAllocation[0].GetCpuHandle();
+        m_hDSV[1] = m_hDSVAllocation[1].GetCpuHandle();
     }
 
     dsvDesc.Flags = D3D12_DSV_FLAG_NONE;
@@ -78,8 +81,11 @@ void DepthBuffer::CreateDerivedViews( ID3D12Device* Device, DXGI_FORMAT Format )
     {
         if (m_hDSV[2].ptr == D3D12_GPU_VIRTUAL_ADDRESS_UNKNOWN)
         {
-            m_hDSV[2] = Graphics::AllocateDescriptor(D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
-            m_hDSV[3] = Graphics::AllocateDescriptor(D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
+            m_hDSVAllocation[2] = Graphics::AllocateDescriptor(D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
+            m_hDSVAllocation[3] = Graphics::AllocateDescriptor(D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
+
+            m_hDSV[2] = m_hDSVAllocation[2].GetCpuHandle();
+            m_hDSV[3] = m_hDSVAllocation[3].GetCpuHandle();
         }
 
         dsvDesc.Flags = D3D12_DSV_FLAG_READ_ONLY_STENCIL;
@@ -95,7 +101,11 @@ void DepthBuffer::CreateDerivedViews( ID3D12Device* Device, DXGI_FORMAT Format )
     }
 
     if (m_hDepthSRV.ptr == D3D12_GPU_VIRTUAL_ADDRESS_UNKNOWN)
-        m_hDepthSRV = Graphics::AllocateDescriptor(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+    {
+        m_hDepthSRVAllocation = Graphics::AllocateDescriptor(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+
+        m_hDepthSRV = m_hDepthSRVAllocation.GetCpuHandle();
+    }
 
     // Create the shader resource view
     D3D12_SHADER_RESOURCE_VIEW_DESC SRVDesc = {};
@@ -115,7 +125,11 @@ void DepthBuffer::CreateDerivedViews( ID3D12Device* Device, DXGI_FORMAT Format )
     if (stencilReadFormat != DXGI_FORMAT_UNKNOWN)
     {
         if (m_hStencilSRV.ptr == D3D12_GPU_VIRTUAL_ADDRESS_UNKNOWN)
-            m_hStencilSRV = Graphics::AllocateDescriptor(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+        {
+            m_hStencilSRVAllocation = Graphics::AllocateDescriptor(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+
+            m_hStencilSRV = m_hStencilSRVAllocation.GetCpuHandle();
+        }
 
         SRVDesc.Format = stencilReadFormat;
         Device->CreateShaderResourceView( Resource, &SRVDesc, m_hStencilSRV );

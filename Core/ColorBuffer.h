@@ -16,6 +16,7 @@
 #include "PixelBuffer.h"
 #include "Color.h"
 #include "GpuBuffer.h"
+#include "DescriptorHeap.h"
 
 class EsramAllocator;
 
@@ -109,4 +110,8 @@ protected:
     uint32_t m_NumMipMaps; // number of texture sublevels
     uint32_t m_FragmentCount;
     uint32_t m_SampleCount;
+
+    LearnRenderer::DescriptorHeapAllocation m_SRVHandleAllocation;
+    LearnRenderer::DescriptorHeapAllocation m_RTVHandleAllocation;
+    LearnRenderer::DescriptorHeapAllocation m_UAVHandleAllocation;
 };

@@ -174,6 +174,7 @@ namespace LearnRenderer
             return GetGpuHandle(Offset);
         }
 
+        /*
         const D3D12_CPU_DESCRIPTOR_HANDLE* operator&() const 
         {
             if (this->GetNumHandles() != 1 || this->IsNull())
@@ -193,7 +194,7 @@ namespace LearnRenderer
                 printf("Is not ShaderVisible or Handle Number is not 1\n");
             return m_FirstGpuHandle;
         }
-
+        */
 
         // Returns pointer to D3D12 descriptor heap that contains this allocation
         ID3D12DescriptorHeap* GetDescriptorHeap() const { return m_pDescriptorHeap; }
