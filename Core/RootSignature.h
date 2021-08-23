@@ -15,8 +15,6 @@
 
 #include "pch.h"
 
-class DescriptorCache;
-
 class RootParameter
 {
     friend class RootSignature;

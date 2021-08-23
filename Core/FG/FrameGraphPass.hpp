@@ -5,11 +5,11 @@
 #include <functional>
 #include <string>
 
-#include <FrameGraphPassBase.hpp>
+#include "FrameGraphPassBase.hpp"
 
 namespace FG
 {
-	class FrameGraphPassBuilder;
+	class FrameGraphBuilder;
 
 	template<typename _DataType>
 	class FrameGraphPass : public FrameGraphPassBase
@@ -19,7 +19,7 @@ namespace FG
 
 		explicit FrameGraphPass(
 			const std::string& name,
-			const std::function<void(DataType&, FrameGraphPassBuilder&)>& setup,
+			const std::function<void(DataType&, FrameGraphBuilder&)>& setup,
 			const std::function<void(const DataType&)>& execute) : FrameGraphPassBase(name), _setup(setup), _execute(execute)
 		{
 
@@ -46,7 +46,7 @@ namespace FG
 		}
 
 		DataType                                                      _data;
-		const std::function<void(DataType&, FrameGraphPassBuilder&)>  _setup;
+		const std::function<void(DataType&, FrameGraphBuilder&)>  _setup;
 		const std::function<void(const DataType&)>                    _execute;
 	};
 }

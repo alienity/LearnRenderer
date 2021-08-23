@@ -3140,10 +3140,11 @@
     <ClInclude Include="FG\Realize.hpp" />
     <ClInclude Include="FG\FrameGraphPass.hpp" />
     <ClInclude Include="FG\FrameGraphPassBase.hpp" />
-    <ClInclude Include="FG\FrameGraphPassBuilder.hpp" />
+    <ClInclude Include="FG\FrameGraphBuilder.hpp" />
     <ClInclude Include="FG\FrameGraphResource.hpp" />
     <ClInclude Include="FileUtility.h" />
     <ClInclude Include="Fonts\consola24.h" />
+    <ClInclude Include="FrameGraphImpl.hpp" />
     <ClInclude Include="GameCore.h" />
     <ClInclude Include="GameInput.h" />
     <ClInclude Include="GpuBuffer.h" />
@@ -3296,6 +3297,8 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>.\packages\zlib-msvc-x64.1.2.11.8900\build\native\include;.\packages\WinPixEventRuntime.1.0.210209001\Include\WinPixEventRuntime;$(SolutionDir)..\Build\$(Platform)\$(Configuration)\Output\$(ProjectName);.\FG;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>

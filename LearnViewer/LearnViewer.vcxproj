@@ -122,6 +122,8 @@
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>../Core;$(SolutionDir)..\Build\$(Platform)\$(Configuration)\Output\$(ProjectName)\</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>..\Packages\zlib-msvc-x64.1.2.11.8900\build\native\lib_release;..\Packages\WinPixEventRuntime.1.0.210209001\bin\x64;$(SolutionDir)..\Build\$(Platform)\$(Configuration)\Output\Core\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>

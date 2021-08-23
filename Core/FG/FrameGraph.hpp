@@ -11,9 +11,9 @@
 #include <type_traits>
 #include <vector>
 
-#include <FrameGraphPass.hpp>
-#include <FrameGraphPassBuilder.hpp>
-#include <FrameGraphResource.hpp>
+#include "FrameGraphPass.hpp"
+#include "FrameGraphBuilder.hpp"
+#include "FrameGraphResource.hpp"
 
 namespace FG
 {
@@ -230,7 +230,7 @@ namespace FG
 	};
 
 	template<typename ResourceType, typename DescriptionType>
-	ResourceType* FrameGraphPassBuilder::Create(const std::string& name, const DescriptionType& description)
+	ResourceType* FrameGraphBuilder::Create(const std::string& name, const DescriptionType& description)
 	{
 		static_assert(std::is_same<typename ResourceType::DescriptionType, DescriptionType>::value, "Description does not match the resource.");
 		_framegraph->_resources.emplace_back(std::make_unique<ResourceType>(name, _renderpass, description));
@@ -239,14 +239,14 @@ namespace FG
 		return static_cast<ResourceType*>(resource);
 	}
 	template<typename ResourceType>
-	ResourceType* FrameGraphPassBuilder::Read(ResourceType* resource)
+	ResourceType* FrameGraphBuilder::Read(ResourceType* resource)
 	{
 		resource->_readers.push_back(_renderpass);
 		_renderpass->_reads.push_back(resource);
 		return resource;
 	}
 	template<typename ResourceType>
-	ResourceType* FrameGraphPassBuilder::Write(ResourceType* resource)
+	ResourceType* FrameGraphBuilder::Write(ResourceType* resource)
 	{
 		resource->_writers.push_back(_renderpass);
 		_renderpass->_writes.push_back(resource);

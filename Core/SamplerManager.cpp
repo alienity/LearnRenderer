@@ -22,20 +22,8 @@
 using namespace std;
 using namespace Graphics;
 
-namespace
-{
-    //map< size_t, D3D12_CPU_DESCRIPTOR_HANDLE > s_SamplerCache;
-}
-
 LearnRenderer::DescriptorHeapAllocation SamplerDesc::CreateDescriptor()
 {
-    //size_t hashValue = Utility::HashState(this);
-    //auto iter = s_SamplerCache.find(hashValue);
-    //if (iter != s_SamplerCache.end())
-    //{
-    //    return iter->second;
-    //}
-
     LearnRenderer::DescriptorHeapAllocation Handle = AllocateDescriptor(D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER);
     g_Device->CreateSampler(this, Handle.GetCpuHandle());
     return Handle;

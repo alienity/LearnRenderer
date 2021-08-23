@@ -10,8 +10,7 @@ namespace FG
 {
 	class FrameGraph;
 	class FrameGraphPassBase;
-	class FrameGraphBuilder;
-
+	
 	class FrameGraphResourceBase
 	{
 	public:

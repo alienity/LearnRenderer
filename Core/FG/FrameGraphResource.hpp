@@ -6,8 +6,8 @@
 #include <string>
 #include <variant>
 
-#include <Realize.hpp>
-#include <FrameGraphResourceBase.hpp>
+#include "Realize.hpp"
+#include "FrameGraphResourceBase.hpp"
 
 namespace FG
 {

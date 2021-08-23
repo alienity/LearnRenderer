@@ -11,6 +11,8 @@
 #include "BufferManager.h"
 #include "TextureManager.h"
 
+#include "FrameGraphImpl.hpp"
+
 #include "CompiledShaders/DefaultVS.h"
 #include "CompiledShaders/DefaultPS.h"
 
@@ -179,6 +181,105 @@ void LearnViewer::Update(float deltaT) {
 }
 
 void LearnViewer::RenderScene(void) {
+    FG::FrameGraph frameGraph;
+    auto retained_resource = frameGraph.AddRetainedResource("Retained Resource 1", FG::ColorBufferDescription(), &g_SceneColorBuffer);
+
+    // First render task declaration.
+    struct render_task_1_data
+    {
+        FG::ColorBufferResource* outputRenderColor;
+        FG::DepthBufferResource* outputRenderDepth;
+    };
+
+    // 绘制方块
+    auto render_task_1 = frameGraph.AddRenderPass<render_task_1_data>(
+        "Render Pass 1",
+        [&](render_task_1_data& data, FG::FrameGraphPassBuilder& builder) {
+            FG::ColorBufferDescription middleColorBuffer{
+                g_SceneColorBuffer.GetWidth(),
+                g_SceneColorBuffer.GetHeight(),
+                0, 0,
+                g_SceneColorBuffer.GetFormat(),
+                1, 1
+            };
+            FG::DepthBufferDescription middleDepthBuffer{
+                0, 0,
+                g_SceneDepthBuffer.GetWidth(),
+                g_SceneDepthBuffer.GetHeight(),
+                1,
+                g_SceneDepthBuffer.GetFormat()
+            };
+
+            data.outputRenderColor = builder.Create<FG::ColorBufferResource>("RenderColor1", middleColorBuffer);
+            data.outputRenderDepth = builder.Create<FG::DepthBufferResource>("RenderDepth1", middleDepthBuffer);
+        },
+        [=](const render_task_1_data& data) {
+            auto actualOutputRenderColor = data.outputRenderColor->Actual();
+            auto actualOutputRenderDepth = data.outputRenderDepth->Actual();
+
+            ColorBuffer realRenderColor = std::move(*actualOutputRenderColor);
+            DepthBuffer realRenderDepth = std::move(*actualOutputRenderDepth);
+
+            GraphicsContext& gfxContext = GraphicsContext::Begin(L"Scene Render");
+
+            __declspec(align(16)) struct DefaultVSCB
+            {
+                Matrix4 Proj;
+                Matrix4 View;
+            } defaultVSCB;
+            defaultVSCB.Proj = m_Camera.GetProjMatrix();
+            defaultVSCB.View = m_Camera.GetViewMatrix();
+
+            gfxContext.TransitionResource(realRenderColor, D3D12_RESOURCE_STATE_RENDER_TARGET);
+            gfxContext.TransitionResource(realRenderDepth, D3D12_RESOURCE_STATE_DEPTH_WRITE);
+            gfxContext.ClearColor(realRenderColor);
+            gfxContext.ClearDepth(realRenderDepth);
+
+            gfxContext.SetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+            gfxContext.SetRootSignature(m_TestRootSig);
+            gfxContext.SetPipelineState(m_TestPSO);
+
+            gfxContext.SetRenderTarget(realRenderColor.GetRTV(), realRenderDepth.GetDSV());
+            gfxContext.SetViewportAndScissor(0, 0, g_DisplayWidth, g_DisplayHeight);
+
+            gfxContext.SetDynamicConstantBufferView(0, sizeof(DefaultVSCB), &defaultVSCB);
+            gfxContext.SetDynamicDescriptor(1, 0, m_TestTexture.GetSRV());
+
+            gfxContext.SetIndexBuffer(m_IndexBuffer.IndexBufferView());
+            gfxContext.SetVertexBuffer(0, m_VertexBuffer.VertexBufferView());
+
+            gfxContext.DrawIndexed(m_IndexBuffer.GetElementCount());
+
+            gfxContext.Finish();
+
+        });
+
+    auto& data_1 = render_task_1->Data();
+
+    // 把Depth输出显示
+    struct render_task_2_data
+    {
+        FG::DepthBufferResource* inputRenderDepth;
+    };
+
+    auto render_task_2 = frameGraph.AddRenderPass<render_task_2_data>(
+        "Render Pass 2",
+        [&](render_task_2_data& data, FG::FrameGraphPassBuilder& builder) {
+            data.inputRenderDepth = builder.Read(data_1.outputRenderDepth);
+        },
+        [=](const render_task_2_data& data) {
+            auto actualRenderDepth = data.inputRenderDepth;
+
+            // 绘制输出到 g_SceneColor
+        }
+        );
+
+    frameGraph.Compile();
+    frameGraph.Execute();
+    frameGraph.Clear();
+
+    /*
     GraphicsContext& gfxContext = GraphicsContext::Begin(L"Scene Render");
 
     __declspec(align(16)) struct DefaultVSCB
@@ -211,4 +312,5 @@ void LearnViewer::RenderScene(void) {
     gfxContext.DrawIndexed(m_IndexBuffer.GetElementCount());
 
     gfxContext.Finish();
+    */
 }

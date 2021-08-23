@@ -726,7 +726,7 @@
     <ClInclude Include="FG\FrameGraphPassBase.hpp">
       <Filter>FG</Filter>
     </ClInclude>
-    <ClInclude Include="FG\FrameGraphPassBuilder.hpp">
+    <ClInclude Include="FG\FrameGraphBuilder.hpp">
       <Filter>FG</Filter>
     </ClInclude>
     <ClInclude Include="FG\FrameGraphResource.hpp">
@@ -734,5 +734,6 @@
     </ClInclude>
     <ClInclude Include="VariableSizeAllocationsManager.hpp" />
     <ClInclude Include="VariableSizeGPUAllocationsManager.hpp" />
+    <ClInclude Include="FrameGraphImpl.hpp" />
   </ItemGroup>
 </Project>

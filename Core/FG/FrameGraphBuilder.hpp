@@ -10,19 +10,19 @@ namespace FG
 	class FrameGraphPassBase;
 
 	// The interface between the framegraph and a render pass.
-	class FrameGraphPassBuilder
+	class FrameGraphBuilder
 	{
 	public:
-		explicit FrameGraphPassBuilder(FrameGraph* framegraph, FrameGraphPassBase* renderpass) :
+		explicit FrameGraphBuilder(FrameGraph* framegraph, FrameGraphPassBase* renderpass) :
 			_framegraph(framegraph), _renderpass(renderpass)
 		{
 
 		}
-		FrameGraphPassBuilder(const FrameGraphPassBuilder& that) = default;
-		FrameGraphPassBuilder(FrameGraphPassBuilder&& temp) = default;
-		virtual ~FrameGraphPassBuilder() = default;
-		FrameGraphPassBuilder& operator=(const FrameGraphPassBuilder& that) = default;
-		FrameGraphPassBuilder& operator=(FrameGraphPassBuilder&& temp) = default;
+		FrameGraphBuilder(const FrameGraphBuilder& that) = default;
+		FrameGraphBuilder(FrameGraphBuilder&& temp) = default;
+		virtual ~FrameGraphBuilder() = default;
+		FrameGraphBuilder& operator=(const FrameGraphBuilder& that) = default;
+		FrameGraphBuilder& operator=(FrameGraphBuilder&& temp) = default;
 
 		template<typename ResourceType, typename DescriptionType> 
 		ResourceType* Create(const std::string& name, const DescriptionType& description);

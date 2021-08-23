@@ -9,7 +9,6 @@
 namespace FG
 {
 	class FrameGraph;
-	class FrameGraphBuilder;
 	class FrameGraphResourceBase;
 
 	class FrameGraphPassBase
