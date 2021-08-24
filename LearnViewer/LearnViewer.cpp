@@ -194,7 +194,7 @@ void LearnViewer::RenderScene(void) {
     // 绘制方块
     auto render_task_1 = frameGraph.AddRenderPass<render_task_1_data>(
         "Render Pass 1",
-        [&](render_task_1_data& data, FG::FrameGraphPassBuilder& builder) {
+        [&](render_task_1_data& data, FG::FrameGraphBuilder& builder) {
             FG::ColorBufferDescription middleColorBuffer{
                 g_SceneColorBuffer.GetWidth(),
                 g_SceneColorBuffer.GetHeight(),
@@ -265,15 +265,14 @@ void LearnViewer::RenderScene(void) {
 
     auto render_task_2 = frameGraph.AddRenderPass<render_task_2_data>(
         "Render Pass 2",
-        [&](render_task_2_data& data, FG::FrameGraphPassBuilder& builder) {
+        [&](render_task_2_data& data, FG::FrameGraphBuilder& builder) {
             data.inputRenderDepth = builder.Read(data_1.outputRenderDepth);
         },
         [=](const render_task_2_data& data) {
             auto actualRenderDepth = data.inputRenderDepth;
 
             // 绘制输出到 g_SceneColor
-        }
-        );
+        });
 
     frameGraph.Compile();
     frameGraph.Execute();

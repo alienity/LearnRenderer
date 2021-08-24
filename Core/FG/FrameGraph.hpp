@@ -33,7 +33,7 @@ namespace FG
 			_renderPasses.emplace_back(std::make_unique<FrameGraphPass<DataType>>(arguments...));
 			auto renderPass = _renderPasses.back().get();
 
-			FrameGraphPassBuilder builder(this, renderPass);
+			FrameGraphBuilder builder(this, renderPass);
 			renderPass->Setup(builder);
 
 			return static_cast<FG::FrameGraphPass<DataType>*>(renderPass);
@@ -215,7 +215,7 @@ namespace FG
 		}
 
 	protected:
-		friend FrameGraphPassBuilder;
+		friend FrameGraphBuilder;
 
 		struct Step
 		{

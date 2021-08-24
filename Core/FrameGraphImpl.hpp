@@ -79,12 +79,12 @@ namespace FG
 			}
 		}
 		ASSERT(!(description.NumMips > 0 && description.ArrayCount > 0));
-		if (description.NumMips > 0) {
-			_ColorBuffer->Create(L"TmpColorBuffer", description.Width, description.Height,
-				description.NumMips, description.Format);
-		} else if (description.ArrayCount > 0) {
+		if (description.ArrayCount > 0) {
 			_ColorBuffer->Create(L"TmpColorArray", description.Width, description.Height, 
 				description.ArrayCount, description.Format);
+		} else {
+			_ColorBuffer->Create(L"TmpColorBuffer", description.Width, description.Height,
+				description.NumMips, description.Format);
 		}
 		return _ColorBuffer;
 	}
@@ -94,7 +94,7 @@ namespace FG
 	{
 		std::unique_ptr<DepthBuffer> _DepthBuffer = 
 			std::make_unique<DepthBuffer>(description.ClearDepth, description.ClearStencil);
-		if (description.NumSamples > 0) {
+		if (description.NumSamples > 1) {
 			_DepthBuffer->Create(L"TmpDepthBuffer", description.Width, description.Height, description.Format, description.NumSamples);
 		} else {
 			_DepthBuffer->Create(L"TmpDepthBuffer", description.Width, description.Height, description.Format);

@@ -36,7 +36,7 @@ namespace FG
 		}
 
 	protected:
-		void Setup(FrameGraphPassBuilder& builder) override
+		void Setup(FrameGraphBuilder& builder) override
 		{
 			_setup(_data, builder);
 		}

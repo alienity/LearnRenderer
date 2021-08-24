@@ -10,6 +10,7 @@ namespace FG
 {
 	class FrameGraph;
 	class FrameGraphResourceBase;
+	//class FrameGraphBuilder;
 
 	class FrameGraphPassBase
 	{
@@ -44,8 +45,8 @@ namespace FG
 		}
 
 	protected:
-		friend FrameGraph;
-		friend FrameGraphBuilder;
+		friend class FrameGraph;
+		friend class FrameGraphBuilder;
 
 		virtual void Setup(FrameGraphBuilder& builder) = 0;
 		virtual void Execute() const = 0;
