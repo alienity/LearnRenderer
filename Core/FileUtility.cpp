@@ -25,8 +25,6 @@ namespace Utility
     ByteArray NullFile = make_shared<vector<uint8_t> > (vector<uint8_t>() );
 }
 
-ByteArray DecompressZippedFile( wstring& fileName );
-
 ByteArray ReadFileHelper(const wstring& fileName)
 {
     struct _stat64 fileStat;
