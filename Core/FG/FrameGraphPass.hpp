@@ -20,7 +20,7 @@ namespace FG
 		explicit FrameGraphPass(
 			const std::string& name,
 			const std::function<void(DataType&, FrameGraphBuilder&)>& setup,
-			const std::function<void(const DataType&)>& execute) : FrameGraphPassBase(name), _setup(setup), _execute(execute)
+			const std::function<int(const DataType&)>& execute) : FrameGraphPassBase(name), _setup(setup), _execute(execute)
 		{
 
 		}
@@ -40,14 +40,14 @@ namespace FG
 		{
 			_setup(_data, builder);
 		}
-		void Execute() const override
+		int Execute() const override
 		{
-			_execute(_data);
+			return _execute(_data);
 		}
 
-		DataType                                                      _data;
-		const std::function<void(DataType&, FrameGraphBuilder&)>  _setup;
-		const std::function<void(const DataType&)>                    _execute;
+		DataType                                                     _data;
+		const std::function<void(DataType&, FrameGraphBuilder&)>     _setup;
+		const std::function<int(const DataType&)>                    _execute;
 	};
 }
 

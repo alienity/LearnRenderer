@@ -14,50 +14,50 @@ namespace FG
 {
 	struct ColorBufferDescription
 	{
-		int Width;
-		int Height;
-		int NumMips;
-		int ArrayCount;
+		uint32_t Width;
+		uint32_t Height;
+		uint32_t NumMips;
+		uint32_t ArrayCount;
 		DXGI_FORMAT Format;
-		int NumColorSamples;
-		int NumCoverageSamples;
+		uint32_t NumColorSamples;
+		uint32_t NumCoverageSamples;
 	};
 
 	struct DepthBufferDescription
 	{
 		float ClearDepth;
-		float ClearStencil;
-		int Width;
-		int Height;
-		int NumSamples;
+		uint8_t ClearStencil;
+		uint32_t Width;
+		uint32_t Height;
+		uint32_t NumSamples;
 		DXGI_FORMAT Format;
 	};
 
 	struct ShadowBufferDescription
 	{
-		int Width;
-		int Height;
+		uint32_t Width;
+		uint32_t Height;
 	};
 
 	struct ByteAddressBufferDescription
 	{
-		int NumElements;
-		int ElementSize;
+		uint32_t NumElements;
+		uint32_t ElementSize;
 	};
 
 	struct IndirectArgsBufferDescription {
-		int NumElements;
-		int ElementSize;
+		uint32_t NumElements;
+		uint32_t ElementSize;
 	};
 
 	struct StructuredBufferDescription {
-		int NumElements;
-		int ElementSize;
+		uint32_t NumElements;
+		uint32_t ElementSize;
 	};
 
 	struct TypedBufferDescription {
-		int NumElements;
-		int ElementSize;
+		uint32_t NumElements;
+		uint32_t ElementSize;
 		DXGI_FORMAT Format;
 	};
 
@@ -68,6 +68,14 @@ namespace FG
 	using IndirectArgsBufferResource = FG::FrameGraphResource<IndirectArgsBufferDescription, IndirectArgsBuffer>;
 	using StructuredBufferResource = FG::FrameGraphResource<StructuredBufferDescription, StructuredBuffer>;
 	using TypedBufferResource = FG::FrameGraphResource<TypedBufferDescription, TypedBuffer>;
+
+	std::list<std::pair<int, std::unique_ptr<ColorBuffer>>> g_ColorBufferCache;
+	std::list<std::pair<int, std::unique_ptr<DepthBuffer>>> g_DepthBufferCache;
+	std::list<std::pair<int, std::unique_ptr<ShadowBuffer>>> g_ShadowBufferCache;
+	std::list<std::pair<int, std::unique_ptr<ByteAddressBuffer>>> g_ByteAddressBufferCache;
+	std::list<std::pair<int, std::unique_ptr<IndirectArgsBuffer>>> g_IndirectArgsBufferCache;
+	std::list<std::pair<int, std::unique_ptr<StructuredBuffer>>> g_StructuredBufferCache;
+	std::list<std::pair<int, std::unique_ptr<TypedBuffer>>> g_TypedBufferCache;
 
 	template<>
 	std::unique_ptr<ColorBuffer> Realize(const ColorBufferDescription& description)
@@ -141,5 +149,57 @@ namespace FG
 		_TypedBuffer->Create(L"TmpTypedBuffer", description.NumElements, description.ElementSize);
 		return _TypedBuffer;
 	}
+
+
+
+	template<>
+	void DeRealize(std::unique_ptr<ColorBuffer>& actual_ptr, int fence)
+	{
+		std::pair<int, std::unique_ptr<ColorBuffer>> cache_pair(fence, std::move(actual_ptr));
+		g_ColorBufferCache.push_back(cache_pair);
+	}
+
+	template<>
+	void DeRealize(std::unique_ptr<DepthBuffer>& actual_ptr, int fence)
+	{
+		std::pair<int, std::unique_ptr<DepthBuffer>> cache_pair(fence, std::move(actual_ptr));
+		g_DepthBufferCache.push_back(cache_pair);
+	}
+
+	template<>
+	void DeRealize(std::unique_ptr<ShadowBuffer>& actual_ptr, int fence)
+	{
+		std::pair<int, std::unique_ptr<ShadowBuffer>> cache_pair(fence, std::move(actual_ptr));
+		g_ShadowBufferCache.push_back(cache_pair);
+	}
+
+	template<>
+	void DeRealize(std::unique_ptr<ByteAddressBuffer>& actual_ptr, int fence)
+	{
+		std::pair<int, std::unique_ptr<ByteAddressBuffer>> cache_pair(fence, std::move(actual_ptr));
+		g_ByteAddressBufferCache.push_back(cache_pair);
+	}
+
+	template<>
+	void DeRealize(std::unique_ptr<IndirectArgsBuffer>& actual_ptr, int fence)
+	{
+		std::pair<int, std::unique_ptr<IndirectArgsBuffer>> cache_pair(fence, std::move(actual_ptr));
+		g_IndirectArgsBufferCache.push_back(cache_pair);
+	}
+
+	template<>
+	void DeRealize(std::unique_ptr<StructuredBuffer>& actual_ptr, int fence)
+	{
+		std::pair<int, std::unique_ptr<StructuredBuffer>> cache_pair(fence, std::move(actual_ptr));
+		g_StructuredBufferCache.push_back(cache_pair);
+	}
+
+	template<>
+	void DeRealize(std::unique_ptr<TypedBuffer>& actual_ptr, int fence)
+	{
+		std::pair<int, std::unique_ptr<TypedBuffer>> cache_pair(fence, std::move(actual_ptr));
+		g_TypedBufferCache.push_back(cache_pair);
+	}
+
 
 }

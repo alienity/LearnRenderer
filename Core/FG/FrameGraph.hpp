@@ -164,8 +164,8 @@ namespace FG
 			for (auto& step : _timeline)
 			{
 				for (auto resource : step.realizedResources) resource->Realize();
-				step.renderPass->Execute();
-				for (auto resource : step.derealizedResources) resource->DeRealize();
+				int fence = step.renderPass->Execute();
+				for (auto resource : step.derealizedResources) resource->DeRealize(fence);
 			}
 		}
 		void Clear()

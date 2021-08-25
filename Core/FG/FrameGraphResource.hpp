@@ -51,9 +51,10 @@ namespace FG
 		{
 			if (Transient()) std::get<std::unique_ptr<ActualType>>(_actual) = FG::Realize<DescriptionType, ActualType>(_description);
 		}
-		void DeRealize() override
+		void DeRealize(int fence) override
 		{
-			if (Transient()) std::get<std::unique_ptr<ActualType>>(_actual).reset();
+			//if (Transient()) std::get<std::unique_ptr<ActualType>>(_actual).reset();
+			if (Transient()) FG::DeRealize(std::get<std::unique_ptr<ActualType>(_actual), fence));
 		}
 
 		DescriptionType                                         _description;

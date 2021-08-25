@@ -49,7 +49,7 @@ namespace FG
 		friend class FrameGraphBuilder;
 
 		virtual void Setup(FrameGraphBuilder& builder) = 0;
-		virtual void Execute() const = 0;
+		virtual int Execute() const = 0;
 
 		std::string                                 _name;
 		bool                                        _cullImmune;

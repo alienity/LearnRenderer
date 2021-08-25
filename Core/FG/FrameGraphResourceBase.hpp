@@ -50,7 +50,7 @@ namespace FG
 		friend FrameGraphBuilder;
 
 		virtual void Realize() = 0;
-		virtual void DeRealize() = 0;
+		virtual void DeRealize(int fence) = 0;
 
 		std::size_t                             _id;
 		std::string                             _name;

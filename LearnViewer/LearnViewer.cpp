@@ -118,13 +118,13 @@ void LearnViewer::InitGeometry() {
     vertexData.push_back(VertexBuffer(XMFLOAT3(1, -1, 1), XMFLOAT2(1, 1)));
     vertexData.push_back(VertexBuffer(XMFLOAT3(-1, -1, 1), XMFLOAT2(0, 1)));
 
-    m_VertexBuffer.Create(L"VertexBuffer", vertexData.size(), sizeof(VertexBuffer), vertexData.data());
+    m_VertexBuffer.Create(L"VertexBuffer", (uint32_t)vertexData.size(), sizeof(VertexBuffer), vertexData.data());
 
     std::vector<int> indexBuffer;
     for (int i = 0; i < vertexData.size(); ++i) {
         indexBuffer.push_back(i);
     }
-    m_IndexBuffer.Create(L"IndexBuffer", indexBuffer.size(), sizeof(int), indexBuffer.data());
+    m_IndexBuffer.Create(L"IndexBuffer", (uint32_t)indexBuffer.size(), sizeof(int), indexBuffer.data());
 
 
     TextureManager::Initialize(L"./Textures/");
@@ -251,8 +251,9 @@ void LearnViewer::RenderScene(void) {
 
             gfxContext.DrawIndexed(m_IndexBuffer.GetElementCount());
 
-            gfxContext.Finish();
+            int fence = gfxContext.Finish();
 
+            return fence;
         });
 
     auto& data_1 = render_task_1->Data();
@@ -272,6 +273,8 @@ void LearnViewer::RenderScene(void) {
             auto actualRenderDepth = data.inputRenderDepth;
 
             // »æÖÆÊä³öµ½ g_SceneColor
+
+            return -1;
         });
 
     frameGraph.Compile();
